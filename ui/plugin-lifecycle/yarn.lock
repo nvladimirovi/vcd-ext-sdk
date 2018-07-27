@@ -109,12 +109,6 @@
     web-animations-js "2.3.1"
     zone.js "0.8.18"
 
-"@vcd/bindings@file:packages/bindings/dist":
-  version "9.1.0"
-
-"@vcd/sdk@file:packages/sdk/dist":
-  version "1.0.0"
-
 "@webcomponents/custom-elements@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@webcomponents/custom-elements/-/custom-elements-1.0.0.tgz#b1726e12074b556aa31b93f36ff6a03a435259c4"

@@ -37,9 +37,7 @@
     "web-animations-js": "2.3.1",
     "zone.js": "0.8.18",
     "es6-shim": "0.35.3",
-    "@vcd-ui/common": "file:vcd-ui/common",
-    "@vcd/bindings": "file:packages/bindings/dist",
-    "@vcd/sdk": "file:packages/sdk/dist"
+    "@vcd-ui/common": "file:vcd-ui/common"
   },
   "devDependencies": {
     "@types/jasmine": "2.5.47",

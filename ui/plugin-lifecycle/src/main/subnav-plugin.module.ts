@@ -13,7 +13,6 @@ import {UploadComponent} from "./subnav/upload-component/upload-component";
 import {FormsModule} from "@angular/forms";
 import { LoadingIndicatorComponent } from "./subnav/loading-indicator-component/loading-indicator.component";
 import { ZipManager } from "./services/zip-manager.service";
-import {VcdApiClient} from "@vcd/sdk";
 import { UploadZipField } from "./subnav/upload-zip-field-component/upload-zip-field.component";
 import { VcdAlert } from "./subnav/alert-component/alert.component";
 import { VcdManifestStackView } from "./subnav/manifest-stack-view-component/manifest-stack-view.component";
@@ -70,7 +69,6 @@ const ROUTES: Routes = [
     providers: [
         AuthService,
         OrganisationService,
-        VcdApiClient,
         ChangeOrgScopeService,
         ChangeScopeService,
         DeletePluginService,
