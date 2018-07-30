@@ -103,6 +103,7 @@ export class ChangeOrgScope implements OnInit {
     public onClose(): void {
         this.state = false;
         this.stateChange.emit(false);
+        this.pluginManager.refresh();
     }
 
     public loadListOfOrgsPerPlugin(): void {
