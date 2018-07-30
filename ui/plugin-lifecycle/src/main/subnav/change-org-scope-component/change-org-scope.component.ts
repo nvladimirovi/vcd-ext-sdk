@@ -22,6 +22,7 @@ export class ChangeOrgScope implements OnInit {
     private _action: string;
     public feedback: ScopeFeedback = new ScopeFeedback();
     public showTracker: boolean;
+    public hasToRefresh: boolean = false;
     public listOfOrgsPerPlugin: ChangeScopeItem[];
     public orgs: Organisation[];
     public plugins: Plugin[];
@@ -93,6 +94,7 @@ export class ChangeOrgScope implements OnInit {
 
     public onUpdate(): void {
         if (this.feedback.data.length > 0) {
+            this.hasToRefresh = true;
             this.handleMixedScope(this.feedback);
             return;
         }
@@ -103,7 +105,10 @@ export class ChangeOrgScope implements OnInit {
     public onClose(): void {
         this.state = false;
         this.stateChange.emit(false);
-        this.pluginManager.refresh();
+        if (this.hasToRefresh) {
+            this.hasToRefresh = false;
+            this.pluginManager.refresh();
+        }
     }
 
     public loadListOfOrgsPerPlugin(): void {
