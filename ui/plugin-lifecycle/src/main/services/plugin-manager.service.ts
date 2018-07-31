@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
-import { Observable, Subject } from "rxjs";
+import { Observable, Subject, BehaviorSubject } from "rxjs";
 import { Plugin, UploadPayload, ChangeScopePlugin } from "../interfaces/Plugin";
 import { PluginValidator } from "../classes/plugin-validator";
 import { AuthService } from "./auth.service";
@@ -15,10 +15,10 @@ import { ChangeScopeRequestTo } from "../interfaces/ChangeScopeRequestTo";
 export class PluginManager {
     private _baseUrl = "https://bos1-vcd-sp-static-200-117.eng.vmware.com";
     private _plugins: Plugin[];
-    private _pluginsSubject = new Subject<Plugin[]>();
+    private _pluginsSubject = new BehaviorSubject<Plugin[]>(this._plugins);
     
     private _selectedPlugins: Plugin[] = [];
-    private _selectedPluginsSubj = new Subject<Plugin[]>();
+    private _selectedPluginsSubj = new BehaviorSubject<Plugin[]>(this.selectedPlugins);
 
     constructor(
         private http: Http,
