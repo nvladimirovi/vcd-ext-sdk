@@ -13,12 +13,11 @@ gulp.task('build', function () {
     entry: './src/main/index.ts',
     external: [
       'rxjs',
-      // 'rxjs/operators',
-      // 'rxjs/observable/empty',
-      // '@angular/common/http',
+      'rxjs/operators',
       '@angular/animations',
       '@angular/animations/browser',
       '@angular/common',
+      '@angular/common/http',
       '@angular/compiler',
       '@angular/core',
       '@angular/forms',
@@ -30,9 +29,9 @@ gulp.task('build', function () {
       '@ngrx/core',
       '@ngrx/store',
       '@ngrx/effects',
+      '@vcd-ui/common',
       'clarity-angular',
-      'reselect',
-      '@vcd-ui/common'
+      'reselect'
     ],
     plugins: [
       angular({
@@ -45,12 +44,9 @@ gulp.task('build', function () {
       }),
       typescript({ typescript: tsc }),
       resolve({
-        // only: [ /^@vcd\/.*$/ ]
+        only: [ '@vcd/bindings', '@vcd/sdk' ]
       }),
-      commonjs({
-        // include: 'node_modules/@vcd/**'
-        include: 'node_modules/**'
-      })
+      commonjs()
     ]
   })
     .then(bundle => {

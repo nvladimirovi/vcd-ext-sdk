@@ -31,8 +31,9 @@ import { ChangeScope } from "./subnav/change-scope-component/change-scope.compon
 import { ChangeScopeService } from "./services/change-scope.service";
 import { ChooseScope } from "./subnav/choose-scope-component/choose-scope.component";
 import { HttpTransferService, CHUNK_SIZE, PARALLEL_REQUESTS } from "./services/http-transfer.service";
+import { HttpClient } from "@angular/common/http";
 
-export function transferServiceFactory(httpClient: Http) {
+export function transferServiceFactory(httpClient: HttpClient) {
     return new HttpTransferService(httpClient, CHUNK_SIZE, PARALLEL_REQUESTS);
 }
 
