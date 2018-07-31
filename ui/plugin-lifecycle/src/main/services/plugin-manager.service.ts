@@ -154,7 +154,7 @@ export class PluginManager {
                     "x-vcloud-authorization": this.authService.getAuthToken()
                 }
 
-                return this.httpTransferService.upload(headers, {file: payload.file, url: transferLink }).toPromise();
+                return this.pluginUploaderService.sendZip(transferLink, payload.file);
             })
             .then(() => {
                 if (scopeFeedback.forAllOrgs && scopeFeedback.publishForAllTenants) {
