@@ -10,6 +10,7 @@ import { PluginUploaderService } from "./plugin-uploader.service";
 import { DeletePluginService } from "./delete-plugin.service";
 import { PluginPublisher } from "./plugin-publisher.service";
 import { ChangeScopeRequestTo } from "../interfaces/ChangeScopeRequestTo";
+import { HttpTransferService } from "./http-transfer.service";
 
 @Injectable()
 export class PluginManager {
@@ -26,7 +27,8 @@ export class PluginManager {
         private disableEnablePlugin: DisableEnablePluginService,
         private pluginUploaderService: PluginUploaderService,
         private deletePluginService: DeletePluginService,
-        private pluginPublisher: PluginPublisher
+        private pluginPublisher: PluginPublisher,
+        private httpTransferService: HttpTransferService
     ) {
         this.authService.auth().then(() => {
             this.getPluginsList();
@@ -146,7 +148,13 @@ export class PluginManager {
                 const linkHeader: string = enableResponse.headers.get("Link");
                 const url: string = linkHeader.split(">;")[0];
                 const transferLink = url.slice(1, url.length);
-                return this.pluginUploaderService.sendZip(transferLink, payload.file);
+
+                const headers = {
+                    "Content-Type": "application/zip",
+                    "x-vcloud-authorization": this.authService.getAuthToken()
+                }
+
+                return this.httpTransferService.upload(headers, {file: payload.file, url: transferLink }).toPromise();
             })
             .then(() => {
                 if (scopeFeedback.forAllOrgs && scopeFeedback.publishForAllTenants) {
