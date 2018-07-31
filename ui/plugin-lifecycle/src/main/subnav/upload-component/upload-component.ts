@@ -158,9 +158,8 @@ export class UploadComponent implements OnInit {
     }
 
     public handleUploadError(err: Error): void {
-        console.warn(err);
-        this.alertMessage = err.message;
         this.loading = false;
+        this.alertMessage = err.message;
     }
 
     public onCancel(): void {

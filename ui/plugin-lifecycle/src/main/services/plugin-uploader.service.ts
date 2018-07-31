@@ -54,23 +54,13 @@ export class PluginUploaderService {
         return this.http.post(`${url}/cloudapi/extensions/ui/${plugin.id}/plugin`, JSON.stringify(body), opts).toPromise();
     }
 
-    public sendZip(transferLink: string, file: File): Promise<any> {
-        return new Promise<void>((resolve, reject) => {
-            const headers = new Headers();
-            headers.append("Content-Type", "application/zip");
-            headers.append("x-vcloud-authorization", this.authService.getAuthToken());
-            const opts = new RequestOptions();
-            opts.headers = headers;
+    public sendZip(transferLink: string, file: File): Promise<Response> {
+        const headers = new Headers();
+        headers.append("Content-Type", "application/zip");
+        headers.append("x-vcloud-authorization", this.authService.getAuthToken());
+        const opts = new RequestOptions();
+        opts.headers = headers;
 
-            this.http.put(transferLink, file, opts).toPromise()
-                .then(() => {
-                    // Handle upload
-                    resolve();
-                })
-                .catch((err) => {
-                    // Handle error
-                    reject(err);
-                });
-        });
+        return this.http.put(transferLink, file, opts).toPromise();
     }
 }

@@ -166,6 +166,9 @@ export class PluginManager {
                 }
 
                 observer.next();
+            })
+            .catch(err => {
+                observer.error(err);
             });
         });
 
