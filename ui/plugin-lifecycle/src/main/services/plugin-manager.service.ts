@@ -61,6 +61,9 @@ export class PluginManager {
         return this._pluginsSubject.asObservable();
     }
 
+    /**
+     * Creates a request for all plugins.
+     */
     public reqPlugins(): Observable<Response> {
         const headers = new Headers();
         headers.append("Accept", "application/json");
@@ -71,38 +74,73 @@ export class PluginManager {
         return this.http.get(`${this._baseUrl}/cloudapi/extensions/ui`, opts);
     }
 
+    /**
+     * Disable list of plugins.
+     * @param plugins list of plugins
+     */
     public disablePlugins(plugins: Plugin[]): Promise<Response[]> {
         return this.disableEnablePlugin.disablePlugins(plugins, this._baseUrl);
     }
 
+    /**
+     * Enable list of plugins.
+     * @param plugins list of plugins
+     */
     public enablePlugins(plugins: Plugin[]): Promise<Response[]> {
         return this.disableEnablePlugin.enablePlugins(plugins, this._baseUrl);
     }
 
+    /**
+     * Delete list of plugins.
+     * @param plugins list of plugins
+     */
     public deletePlugins(plugins: Plugin[]): Promise<Response[]> {
         return this.deletePluginService.deletePlugins(plugins, this._baseUrl);
     }
 
+    /**
+     * Publish list of plugins.
+     * @param plugins list of plugins
+     * @param trackScopeChange flag which determines requests like trackable
+     */
     public publishPluginForAllTenants(plugins: Plugin[], trackScopeChange: boolean): ChangeScopeRequestTo[] {
         return this.pluginPublisher.publishPluginForAllTenants(plugins ? plugins : this.selectedPlugins, this._baseUrl, trackScopeChange);
     }
 
+    /**
+     * Unpublish list of plugins.
+     * @param plugins list of plugins
+     * @param trackScopeChange flag which determines requests like trackable
+     */
     public unpublishPluginForAllTenants(plugins: Plugin[], trackScopeChange: boolean): ChangeScopeRequestTo[] {
         return this.pluginPublisher.unpublishPluginForAllTenants(plugins ? plugins : this.selectedPlugins, this._baseUrl, trackScopeChange);
     }
 
+    /**
+     * Publish or unpublish list of plugins.
+     */
     public handleMixedScope(plugins: ChangeScopePlugin[], scopeFeedback: ScopeFeedback, trackScopeChange: boolean): { url: string, req: Observable<Response> }[] {
         return this.pluginPublisher.handleMixedScope(plugins, scopeFeedback, trackScopeChange, this._baseUrl);
     }
 
+    /**
+     * Refresh the list of plugins.
+     */
     public refresh(): Promise<void> {
         return this.getPluginsList();
     }
 
+    /**
+     * Check the list of plugins for duplications with provided plugin name.
+     * @param pluginName name of the plugin.
+     */
     public checkForDuplications(pluginName: string): Promise<boolean> {
         return PluginValidator.checkForDuplications(pluginName, this._plugins);
     }
 
+    /**
+     * Load the plugins.
+     */
     private getPluginsList(): Promise<void> {
         const promise = new Promise<void>((resolve, reject) => {
             this.reqPlugins().toPromise()
@@ -118,15 +156,23 @@ export class PluginManager {
         return promise;
     }
 
+    /**
+     * Upload new plugin.
+     * @param payload the data of the plugin
+     * @param scopeFeedback the data which describes the scope of the plugin which will be uploaded
+     */
     public uploadPlugin(payload: UploadPayload, scopeFeedback: ScopeFeedback): Observable<ChangeScopeRequestTo[]> {
+        // Create data used to register it
         const PLUGIN: any = {
             id: null,
             file: null
         };
 
         const observable = new Observable<ChangeScopeRequestTo[]>((observer) => {
+            // Extract useful data from the manifest
             this.pluginUploaderService.proccessManifest(payload.manifest)
             .then((pluginDesc) => {
+                // Create headers
                 const headers = new Headers();
                 headers.append("Accept", "application/json");
                 headers.append("Content-Type", "application/json");
@@ -134,6 +180,7 @@ export class PluginManager {
                 const opts = new RequestOptions();
                 opts.headers = headers;
 
+                // Register plugin into the system
                 return this.http.post(`${this._baseUrl}/cloudapi/extensions/ui`, pluginDesc, opts).toPromise();
             })
             .then((registerPluginResponse: Response) => {
@@ -141,6 +188,7 @@ export class PluginManager {
                 const RES = registerPluginResponse.json();
                 PLUGIN.id = RES.id;
                 PLUGIN.file = payload.file;
+                // Register the plugin name and size
                 return this.pluginUploaderService.enablePluginUpload(PLUGIN, this._baseUrl);
             })
             .then((enableResponse: Response) => {
@@ -153,9 +201,11 @@ export class PluginManager {
                     "x-vcloud-authorization": this.authService.getAuthToken()
                 };
 
+                // Upload the plugin chunk by chunk
                 return this.httpTransferService.upload(headers, { file: payload.file, url: transferLink }).toPromise();
             })
             .then(() => {
+                // Publish the plugin if this kind of data is provided
                 if (scopeFeedback.forAllOrgs && scopeFeedback.publishForAllTenants) {
                     observer.next(this.publishPluginForAllTenants([PLUGIN], false));
                     return
