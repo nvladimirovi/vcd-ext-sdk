@@ -14,7 +14,7 @@ export class PluginPublisher {
     constructor(
         private http: Http,
         private authService: AuthService,
-        private changeScopeService: ChangeOrgScopeService
+        private changeOrgScopeService: ChangeOrgScopeService
     ) {}
 
     /**
@@ -41,7 +41,7 @@ export class PluginPublisher {
 
             // Track the request if needed
             if (trackScopeChange) {
-                this.changeScopeService.addChangeScopeReq(new ChangeScopeRequest(REQ_URL, pluginToUpdate.pluginName, `${hasToBe}`));
+                this.changeOrgScopeService.addChangeScopeReq(new ChangeScopeRequest(REQ_URL, pluginToUpdate.pluginName, `${hasToBe}`));
             }
 
             // Add the request into the list of processes
@@ -82,7 +82,7 @@ export class PluginPublisher {
 
         // Track the request if needed
         if (trackScopeChange) {
-            this.changeScopeService.addChangeScopeReq(new ChangeScopeRequest(REQ_URL, plugin.pluginName ? plugin.pluginName : plugin.id, `${hasToBe}`));
+            this.changeOrgScopeService.addChangeScopeReq(new ChangeScopeRequest(REQ_URL, plugin.pluginName ? plugin.pluginName : plugin.id, `${hasToBe}`));
         }
 
         return {
