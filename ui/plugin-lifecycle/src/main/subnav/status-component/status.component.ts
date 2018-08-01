@@ -30,6 +30,7 @@ export class StatusComponent implements OnInit, OnDestroy {
     public showTracker: boolean = false;
     public openChangeScope: boolean = false;
     public errorMessage: string;
+    public openErrorNotifyer: boolean;
     public watchPluginListSub: Subscription;
 
     public modalSubject = new Subject<SubjectModalData>();

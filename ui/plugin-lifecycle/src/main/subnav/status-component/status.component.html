@@ -87,6 +87,6 @@
 <!-- Change scope -->
 <vcd-change-scope [(open)]="openChangeScope"></vcd-change-scope>
 <!--  Show error messages -->
-<vcd-error-notifyer>
+<vcd-error-notifyer [(opened)]="openErrorNotifyer">
     <p>{{ errorMessage }}</p>
 </vcd-error-notifyer>
