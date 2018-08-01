@@ -38,7 +38,7 @@ export class StatusComponent implements OnInit, OnDestroy {
     constructor(
         @Inject(EXTENSION_ASSET_URL) public assetUrl: string,
         private pluginManager: PluginManager,
-        private changeScopeService: ChangeOrgScopeService
+        private changeOrgScopeService: ChangeOrgScopeService
     ) { }
 
     public ngOnInit() {
@@ -65,12 +65,16 @@ export class StatusComponent implements OnInit, OnDestroy {
     public getOpened(): boolean {
         return this.modal.opened;
     }
-
+    
     public setOpened(val: boolean): void {
         this.modal.waitToClose = false;
         this.modal.opened = val;
     }
 
+    /**
+     * The method will notify all listers for this action.
+     * @param accept value to be emitted to all listeners.
+     */
     public emitAndClose(accept: boolean): void {
         if (!this.modal.waitToClose) {
             this.setOpened(false);
@@ -78,6 +82,9 @@ export class StatusComponent implements OnInit, OnDestroy {
         this.modalSubject.next({ accept });
     }
 
+    /**
+     * Open modal with spcified options.
+     */
     public openModal(options: ModalData): Observable<SubjectModalData> {
         this.setOpened(true);
         this.modal.title = options.title || null;
@@ -89,63 +96,87 @@ export class StatusComponent implements OnInit, OnDestroy {
         return this.modalSubject.asObservable();
     }
 
+    /**
+     * Observe the plugin list in plugin manager service
+     */
     public watchPluginsList(): void {
         this.watchPluginListSub = this.pluginManager.watchPluginList().subscribe((plugins: Plugin[]) => {
             this.plugins = plugins;
         });
     }
 
+    // Validate enable or disable action
     public validateAction(hasToBe: boolean): Promise<void> {
         return PluginValidator.validateDisableEnableAction(this.selected, hasToBe, this.openModal.bind(this));
     }
 
+    // Disable all selected plugins
     public onDisable(): void {
         this.errorMessage = null;
 
+        // Validate the action
         this.validateAction(false)
             .then(() => {
+                // Show spinner
                 this.loading();
 
                 return this.pluginManager
+                    // Start the disable process
                     .disablePlugins(this.selected)
             })
             .then(() => {
+                // Refresh the list of plugins
                 return this.pluginManager.refresh();
             })
             .then(() => {
+                // Hide spinner
                 this.endLoading();
             })
             .catch((error: Error) => {
+                this.endLoading();
+                this.openErrorNotifyer = true;
                 this.errorMessage = error.message;
             });
     }
 
+    // Enable all selected plugins
     public onEnable(): void {
         this.errorMessage = null;
-
+        
+        // Validate the list of plugins
         this.validateAction(true)
             .then(() => {
+                // Show spinner
                 this.loading();
                 return this.pluginManager
+                    // Start enable process
                     .enablePlugins(this.selected);
             })
             .then(() => {
+                // Refresh the plugins list
                 return this.pluginManager.refresh();
             })
             .then(() => {
+                // Hide the spinner
                 this.endLoading();
             })
             .catch((error) => {
+                this.endLoading();
+                this.openErrorNotifyer = true;
                 this.errorMessage = error.message;
             });
     }
 
+    /**
+     * Starts delete action on selected plugins.
+     */
     public onDelete(): void {
         if (this.selected.length < 1) {
             return;
         }
         this.errorMessage = null;
         let onDeleteSub: Subscription;
+        // Open modal to notify the user
         onDeleteSub = this.openModal({
             title: "Delete",
             body: "Are you sure you want to delete?",
@@ -154,6 +185,7 @@ export class StatusComponent implements OnInit, OnDestroy {
             waitToClose: true
         })
             .subscribe((modalSubjectData: SubjectModalData) => {
+                // If user doesn't authorize the action
                 if (modalSubjectData.accept === false) {
                     this.setOpened(false);
                     onDeleteSub.unsubscribe();
@@ -165,31 +197,48 @@ export class StatusComponent implements OnInit, OnDestroy {
                 this.loading();
 
                 this.pluginManager
+                    // Delete all selected plugins
                     .deletePlugins(this.selected)
                     .then(() => {
+                        // Refresh the list of plugins
                         this.pluginManager.refresh();
+                        // Close the loader
                         this.endLoading();
                     })
                     .catch((error) => {
                         this.endLoading();
+                        this.openErrorNotifyer = true;
                         this.errorMessage = error.message;
                     });
             });
     }
 
+    /**
+     * Open upload modal.
+     */
     public onUpload(): void {
         this.wantToUpload = true;
     }
 
+    /**
+     * Open the modal for org scope changing with selected action.
+     * @param action action which will be applied ( publish / unpublish )
+     */
     public openChangeOrgScope(action: string): void {
         this.changeScopeState = true;
         this.action = action;
     }
 
+    /**
+     * Open the modal for scope changing.
+     */
     public changeScope() {
         this.openChangeScope = true;
     }
 
+    /**
+     * Publish the plugins for all tenants.
+     */
     public publishForAllTenants(): void {
         this.errorMessage = null;
         this.showTracker = true;
@@ -198,32 +247,51 @@ export class StatusComponent implements OnInit, OnDestroy {
             .forEach(this.handleScopeChanging.bind(this));
     }
 
+    /**
+     * Unpublish the plugins for all tenants.
+     */
     public unpublishForAllTenants(): void {
         this.errorMessage = null;
         this.showTracker = true;
         this.pluginManager
+            // Call unpublish all selected plugins
             .unpublishPluginForAllTenants(this.selected, true)
+            // Map the requests to change scope service
             .forEach(this.handleScopeChanging.bind(this));
     }
 
+    /**
+     * Execute requests and notify the change scope service.
+     * @param reqData data which describes the change scope request.
+     */
     public handleScopeChanging(reqData: ChangeScopeRequestTo): void {
         const subscription = reqData.req.subscribe(
             (res) => {
-                this.changeScopeService.changeReqStatusTo(res.url, true);
+                // Notify the service if request complete successfully
+                this.changeOrgScopeService.changeReqStatusTo(reqData.url, true);
                 subscription.unsubscribe();
             },
             (error) => {
+                this.endLoading();
+                this.openErrorNotifyer = true;
                 this.errorMessage = error.message;
-                this.changeScopeService.changeReqStatusTo(reqData.url, false);
+                // Notify the service if request complete successfully
+                this.changeOrgScopeService.changeReqStatusTo(reqData.url, false);
                 subscription.unsubscribe();
             }
         )
     }
 
+    /**
+     * Show the loader on the screen.
+     */
     public loading(): void {
         this.isLoading = true;
     }
 
+    /**
+     * Removes loader from the screen.
+     */
     public endLoading(): void {
         this.isLoading = false;
     }
