@@ -165,7 +165,7 @@ export class StatusComponent implements OnInit, OnDestroy {
                         this.endLoading();
                     })
                     .catch((err) => {
-                        // Handle err
+                        // Handle error
                         this.endLoading();
                     });
             });

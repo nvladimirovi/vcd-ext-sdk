@@ -2,7 +2,7 @@
     <!-- Wizard -->
     <clr-wizard #wizardlg [(clrWizardOpen)]="open" (clrWizardOnCancel)="onCancel()"
         clrWizardSize="lg">
-        <vcd-loading-indicator [isLoading]="loading" [showSpinner]="loading" [fixed]="true" loadingTextKey="Uploading..."></vcd-loading-indicator>
+        <vcd-loading-indicator [isLoading]="loading" [showSpinner]="loading" [fixed]="true" [loadingTextKey]="'Uploading...'"></vcd-loading-indicator>
 
         <clr-wizard-title>Upload plugin</clr-wizard-title>
 
