@@ -150,10 +150,9 @@ export class PluginManager {
                 const url: string = linkHeader.split(">;")[0];
                 const transferLink = url.slice(1, url.length);
 
-                const headers = new HttpHeaders({
-                    "Content-Type": "application/zip",
+                const headers = {
                     "x-vcloud-authorization": this.authService.getAuthToken()
-                });
+                };
 
                 return this.httpTransferService.upload(headers, { file: payload.file, url: transferLink }).toPromise();
             })

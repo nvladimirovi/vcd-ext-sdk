@@ -1,7 +1,7 @@
 import {CommonModule} from "@angular/common";
 import {Inject, NgModule} from "@angular/core";
 import {Routes, RouterModule} from "@angular/router";
-import {HttpModule, Http} from "@angular/http";
+import {HttpModule} from "@angular/http";
 import {ClarityModule} from "clarity-angular";
 import {Store} from "@ngrx/store";
 import {EXTENSION_ROUTE, ExtensionNavRegistration, ExtensionNavRegistrationAction, I18nModule} from "@vcd-ui/common";
@@ -31,7 +31,7 @@ import { ChangeScope } from "./subnav/change-scope-component/change-scope.compon
 import { ChangeScopeService } from "./services/change-scope.service";
 import { ChooseScope } from "./subnav/choose-scope-component/choose-scope.component";
 import { HttpTransferService, CHUNK_SIZE, PARALLEL_REQUESTS } from "./services/http-transfer.service";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 
 export function transferServiceFactory(httpClient: HttpClient) {
     return new HttpTransferService(httpClient, CHUNK_SIZE, PARALLEL_REQUESTS);
@@ -52,6 +52,7 @@ const ROUTES: Routes = [
         HttpModule,
         I18nModule,
         FormsModule,
+        HttpClientModule,
         RouterModule.forChild(ROUTES)
     ],
     declarations: [
@@ -76,7 +77,7 @@ const ROUTES: Routes = [
         {
             provide: HttpTransferService,
             useFactory: transferServiceFactory,
-            deps: [Http]
+            deps: [HttpClient]
         },
         AuthService,
         OrganisationService,
