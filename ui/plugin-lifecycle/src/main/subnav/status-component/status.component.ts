@@ -29,7 +29,7 @@ export class StatusComponent implements OnInit, OnDestroy {
     public action: string;
     public showTracker: boolean = false;
     public openChangeScope: boolean = false;
-
+    public errorMessage: string;
     public watchPluginListSub: Subscription;
 
     public modalSubject = new Subject<SubjectModalData>();
@@ -99,6 +99,8 @@ export class StatusComponent implements OnInit, OnDestroy {
     }
 
     public onDisable(): void {
+        this.errorMessage = null;
+
         this.validateAction(false)
             .then(() => {
                 this.loading();
@@ -112,12 +114,14 @@ export class StatusComponent implements OnInit, OnDestroy {
             .then(() => {
                 this.endLoading();
             })
-            .catch((err) => {
-                // Handle error
+            .catch((error: Error) => {
+                this.errorMessage = error.message;
             });
     }
 
     public onEnable(): void {
+        this.errorMessage = null;
+
         this.validateAction(true)
             .then(() => {
                 this.loading();
@@ -130,8 +134,8 @@ export class StatusComponent implements OnInit, OnDestroy {
             .then(() => {
                 this.endLoading();
             })
-            .catch((err) => {
-                // Handle Error
+            .catch((error) => {
+                this.errorMessage = error.message;
             });
     }
 
@@ -139,6 +143,7 @@ export class StatusComponent implements OnInit, OnDestroy {
         if (this.selected.length < 1) {
             return;
         }
+        this.errorMessage = null;
         let onDeleteSub: Subscription;
         onDeleteSub = this.openModal({
             title: "Delete",
@@ -164,9 +169,9 @@ export class StatusComponent implements OnInit, OnDestroy {
                         this.pluginManager.refresh();
                         this.endLoading();
                     })
-                    .catch((err) => {
-                        // Handle error
+                    .catch((error) => {
                         this.endLoading();
+                        this.errorMessage = error.message;
                     });
             });
     }
@@ -185,6 +190,7 @@ export class StatusComponent implements OnInit, OnDestroy {
     }
 
     public publishForAllTenants(): void {
+        this.errorMessage = null;
         this.showTracker = true;
         this.pluginManager
             .publishPluginForAllTenants(this.selected, true)
@@ -192,6 +198,7 @@ export class StatusComponent implements OnInit, OnDestroy {
     }
 
     public unpublishForAllTenants(): void {
+        this.errorMessage = null;
         this.showTracker = true;
         this.pluginManager
             .unpublishPluginForAllTenants(this.selected, true)
@@ -204,11 +211,10 @@ export class StatusComponent implements OnInit, OnDestroy {
                 this.changeScopeService.changeReqStatusTo(res.url, true);
                 subscription.unsubscribe();
             },
-            (err) => {
-                // Handle Error
+            (error) => {
+                this.errorMessage = error.message;
                 this.changeScopeService.changeReqStatusTo(reqData.url, false);
                 subscription.unsubscribe();
-                console.warn(err);
             }
         )
     }

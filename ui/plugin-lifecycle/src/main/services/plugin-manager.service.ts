@@ -112,7 +112,6 @@ export class PluginManager {
                     resolve();
                 })
                 .catch((err) => {
-                    // Handle error.
                     reject(err);
                 });
         });

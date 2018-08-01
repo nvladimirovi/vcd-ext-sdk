@@ -78,10 +78,15 @@
     </clr-modal>
 </div>
 
+<!-- Change org scope -->
 <vcd-change-org-scope [(state)]="changeScopeState" [action]="action"></vcd-change-org-scope>
-
+<!-- Upload new plugin -->
 <vcd-plugin-upload [(open)]="wantToUpload"></vcd-plugin-upload>
-
+<!-- Trakc org scope change request -->
 <vcd-change-org-scope-tracker [(open)]="showTracker"></vcd-change-org-scope-tracker>
-
+<!-- Change scope -->
 <vcd-change-scope [(open)]="openChangeScope"></vcd-change-scope>
+<!--  Show error messages -->
+<vcd-error-notifyer>
+    <p>{{ errorMessage }}</p>
+</vcd-error-notifyer>

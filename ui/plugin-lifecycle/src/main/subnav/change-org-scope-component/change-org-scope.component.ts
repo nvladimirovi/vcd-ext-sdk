@@ -26,6 +26,8 @@ export class ChangeOrgScope implements OnInit {
     public listOfOrgsPerPlugin: ChangeScopeItem[];
     public orgs: Organisation[];
     public plugins: Plugin[];
+    public alertMessage: string;
+    public alertClasses: string;
     
     public watchSourceDataSub: Subscription;
 
@@ -62,6 +64,7 @@ export class ChangeOrgScope implements OnInit {
 
     public ngOnInit(): void {
         this.showTracker = false;
+        this.alertClasses = "alert-info";
     }
 
     get state (): boolean {
@@ -73,8 +76,6 @@ export class ChangeOrgScope implements OnInit {
     }
 
     public handleMixedScope(feedback: ScopeFeedback): void {
-        this.showTracker = true;
-
         const requests = this.pluginManager.handleMixedScope(this.plugins, feedback, true);
         requests.forEach((element) => {
             const subscription = element.req.subscribe(
@@ -82,11 +83,11 @@ export class ChangeOrgScope implements OnInit {
                     this.changeScopeService.changeReqStatusTo(res.url, true);
                     subscription.unsubscribe();
                 },
-                (err) => {
-                    // Handle Error
+                (error: Error) => {
                     this.changeScopeService.changeReqStatusTo(element.url, false);
                     subscription.unsubscribe();
-                    console.warn(err);
+                    this.alertMessage = error.message;
+                    this.alertClasses = "alert-danger";
                 }
             )
         });
@@ -94,7 +95,11 @@ export class ChangeOrgScope implements OnInit {
 
     public onUpdate(): void {
         if (this.feedback.data.length > 0) {
+            this.alertMessage = null;
+            this.alertClasses = "alert-info";
+
             this.hasToRefresh = true;
+            this.showTracker = true;
             this.handleMixedScope(this.feedback);
             return;
         }
@@ -104,6 +109,7 @@ export class ChangeOrgScope implements OnInit {
 
     public onClose(): void {
         this.state = false;
+
         this.stateChange.emit(false);
         if (this.hasToRefresh) {
             this.hasToRefresh = false;
@@ -144,8 +150,9 @@ export class ChangeOrgScope implements OnInit {
             }
 
             this.populateList();
-        }, (err) => {
-            // Handle error
+        }, (error) => {
+            this.alertMessage = error.message;
+            this.alertClasses = "alert-danger";
         });
     }
 

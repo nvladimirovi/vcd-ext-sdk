@@ -2,6 +2,9 @@
     <clr-modal [clrModalOpen]="state" [clrModalClosable]="false" [clrModalSize]="'lg'">
         <h3 class="modal-title">{{ action | capitalizeFirst }}</h3>
         <div class="modal-body">
+            <!-- Alert -->
+            <vcd-alert [alertMessage]="alertMessage" [alertClasses]="alertClasses"></vcd-alert>
+
             <vcd-choose-org-scope [(feedback)]="feedback" [listOfOrgsPerPlugin]="listOfOrgsPerPlugin"></vcd-choose-org-scope>
             <vcd-change-org-scope-tracker [(open)]="showTracker"></vcd-change-org-scope-tracker>
         </div>
