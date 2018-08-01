@@ -32,6 +32,7 @@ import { ChangeScopeService } from "./services/change-scope.service";
 import { ChooseScope } from "./subnav/choose-scope-component/choose-scope.component";
 import { HttpTransferService, CHUNK_SIZE, PARALLEL_REQUESTS } from "./services/http-transfer.service";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { ErrorNotifyerComponent } from "./subnav/error-notifyer-component/error-notifyer.component";
 
 export function transferServiceFactory(httpClient: HttpClient) {
     return new HttpTransferService(httpClient, CHUNK_SIZE, PARALLEL_REQUESTS);
@@ -69,7 +70,8 @@ const ROUTES: Routes = [
         ChangeOrgScope,
         ChooseOrgScope,
         ChangeOrgScopeTracker,
-        LoadingIndicatorComponent
+        LoadingIndicatorComponent,
+        ErrorNotifyerComponent
     ],
     bootstrap: [SubnavComponent],
     exports: [],
