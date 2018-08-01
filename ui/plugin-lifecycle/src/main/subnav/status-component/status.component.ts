@@ -122,7 +122,7 @@ export class StatusComponent implements OnInit, OnDestroy {
 
                 return this.pluginManager
                     // Start the disable process
-                    .disablePlugins(this.selected)
+                    .disablePlugins()
             })
             .then(() => {
                 // Refresh the list of plugins
@@ -150,7 +150,7 @@ export class StatusComponent implements OnInit, OnDestroy {
                 this.loading();
                 return this.pluginManager
                     // Start enable process
-                    .enablePlugins(this.selected);
+                    .enablePlugins();
             })
             .then(() => {
                 // Refresh the plugins list
@@ -198,7 +198,7 @@ export class StatusComponent implements OnInit, OnDestroy {
 
                 this.pluginManager
                     // Delete all selected plugins
-                    .deletePlugins(this.selected)
+                    .deletePlugins()
                     .then(() => {
                         // Refresh the list of plugins
                         this.pluginManager.refresh();
@@ -243,7 +243,7 @@ export class StatusComponent implements OnInit, OnDestroy {
         this.errorMessage = null;
         this.showTracker = true;
         this.pluginManager
-            .publishPluginForAllTenants(this.selected, true)
+            .publishPluginForAllTenants(true)
             .forEach(this.handleScopeChanging.bind(this));
     }
 
@@ -255,7 +255,7 @@ export class StatusComponent implements OnInit, OnDestroy {
         this.showTracker = true;
         this.pluginManager
             // Call unpublish all selected plugins
-            .unpublishPluginForAllTenants(this.selected, true)
+            .unpublishPluginForAllTenants(true)
             // Map the requests to change scope service
             .forEach(this.handleScopeChanging.bind(this));
     }

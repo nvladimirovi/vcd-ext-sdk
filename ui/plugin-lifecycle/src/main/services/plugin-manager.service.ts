@@ -78,24 +78,24 @@ export class PluginManager {
      * Disable list of plugins.
      * @param plugins list of plugins
      */
-    public disablePlugins(plugins: Plugin[]): Promise<Response[]> {
-        return this.disableEnablePlugin.disablePlugins(plugins, this._baseUrl);
+    public disablePlugins(): Promise<Response[]> {
+        return this.disableEnablePlugin.disablePlugins(this.selectedPlugins, this._baseUrl);
     }
 
     /**
      * Enable list of plugins.
      * @param plugins list of plugins
      */
-    public enablePlugins(plugins: Plugin[]): Promise<Response[]> {
-        return this.disableEnablePlugin.enablePlugins(plugins, this._baseUrl);
+    public enablePlugins(): Promise<Response[]> {
+        return this.disableEnablePlugin.enablePlugins(this.selectedPlugins, this._baseUrl);
     }
 
     /**
      * Delete list of plugins.
      * @param plugins list of plugins
      */
-    public deletePlugins(plugins: Plugin[]): Promise<Response[]> {
-        return this.deletePluginService.deletePlugins(plugins, this._baseUrl);
+    public deletePlugins(): Promise<Response[]> {
+        return this.deletePluginService.deletePlugins(this.selectedPlugins, this._baseUrl);
     }
 
     /**
@@ -103,8 +103,8 @@ export class PluginManager {
      * @param plugins list of plugins
      * @param trackScopeChange flag which determines requests like trackable
      */
-    public publishPluginForAllTenants(plugins: Plugin[], trackScopeChange: boolean): ChangeScopeRequestTo[] {
-        return this.pluginPublisher.publishPluginForAllTenants(plugins ? plugins : this.selectedPlugins, this._baseUrl, trackScopeChange);
+    public publishPluginForAllTenants(trackScopeChange: boolean): ChangeScopeRequestTo[] {
+        return this.pluginPublisher.publishPluginForAllTenants(this.selectedPlugins, this._baseUrl, trackScopeChange);
     }
 
     /**
@@ -112,8 +112,8 @@ export class PluginManager {
      * @param plugins list of plugins
      * @param trackScopeChange flag which determines requests like trackable
      */
-    public unpublishPluginForAllTenants(plugins: Plugin[], trackScopeChange: boolean): ChangeScopeRequestTo[] {
-        return this.pluginPublisher.unpublishPluginForAllTenants(plugins ? plugins : this.selectedPlugins, this._baseUrl, trackScopeChange);
+    public unpublishPluginForAllTenants(trackScopeChange: boolean): ChangeScopeRequestTo[] {
+        return this.pluginPublisher.unpublishPluginForAllTenants(this.selectedPlugins, this._baseUrl, trackScopeChange);
     }
 
     /**
@@ -207,12 +207,12 @@ export class PluginManager {
             .then(() => {
                 // Publish the plugin if this kind of data is provided
                 if (scopeFeedback.forAllOrgs && scopeFeedback.publishForAllTenants) {
-                    observer.next(this.publishPluginForAllTenants([PLUGIN], false));
+                    observer.next(this.pluginPublisher.publishPluginForAllTenants([PLUGIN], this.baseUrl, false));
                     return
                 }
 
                 if (scopeFeedback.forAllOrgs && scopeFeedback.unpublishForAllTenants) {
-                    observer.next(this.unpublishPluginForAllTenants([PLUGIN], false));
+                    observer.next(this.pluginPublisher.unpublishPluginForAllTenants([PLUGIN], this.baseUrl, false));
                     return
                 }
 
