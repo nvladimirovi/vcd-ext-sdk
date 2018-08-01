@@ -11,6 +11,7 @@ import { DeletePluginService } from "./delete-plugin.service";
 import { PluginPublisher } from "./plugin-publisher.service";
 import { ChangeScopeRequestTo } from "../interfaces/ChangeScopeRequestTo";
 import { HttpTransferService } from "./http-transfer.service";
+import { HttpHeaders } from "@angular/common/http";
 
 @Injectable()
 export class PluginManager {
@@ -149,12 +150,12 @@ export class PluginManager {
                 const url: string = linkHeader.split(">;")[0];
                 const transferLink = url.slice(1, url.length);
 
-                const headers = {
+                const headers = new HttpHeaders({
                     "Content-Type": "application/zip",
                     "x-vcloud-authorization": this.authService.getAuthToken()
-                }
+                });
 
-                return this.pluginUploaderService.sendZip(transferLink, payload.file);
+                return this.httpTransferService.upload(headers, { file: payload.file, url: transferLink }).toPromise();
             })
             .then(() => {
                 if (scopeFeedback.forAllOrgs && scopeFeedback.publishForAllTenants) {
