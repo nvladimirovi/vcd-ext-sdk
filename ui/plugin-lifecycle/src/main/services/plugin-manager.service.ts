@@ -10,8 +10,8 @@ import { PluginUploaderService } from "./plugin-uploader.service";
 import { DeletePluginService } from "./delete-plugin.service";
 import { PluginPublisher } from "./plugin-publisher.service";
 import { ChangeScopeRequestTo } from "../interfaces/ChangeScopeRequestTo";
-import { HttpTransferService } from "./http-transfer.service";
-import { HttpHeaders } from "@angular/common/http";
+// import { HttpTransferService } from "./http-transfer.service";
+import {HttpTransferService} from "@vcd/http-transfer-service";
 
 @Injectable()
 export class PluginManager {
