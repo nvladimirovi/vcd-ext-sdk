@@ -6,11 +6,17 @@ import { PluginValidator } from "../classes/plugin-validator";
 import { ScopeFeedback } from "../classes/ScopeFeedback";
 import { PluginUploaderService } from "./plugin-uploader.service";
 import { PluginPublisher } from "./plugin-publisher.service";
+<<<<<<< HEAD
 import { HttpTransferService } from "@vcd/http-transfer-service";
 import { API_ROOT_URL, AuthTokenHolderService } from "@vcd-ui/common";
 import { UiPluginMetadataResponse, UiPluginMetadata } from "@vcd/bindings/vcloud/rest/openapi/model";
 import { PluginService } from "./plugin.service";
 import { getPropsWithout } from "../helpers/object-helpers";
+=======
+import { ChangeScopeRequestTo } from "../interfaces/ChangeScopeRequestTo";
+// import { HttpTransferService } from "./http-transfer.service";
+import {HttpTransferService} from "@vcd/http-transfer-service";
+>>>>>>> 53d06fb... Add http-transfer package
 
 @Injectable()
 export class PluginManager {
