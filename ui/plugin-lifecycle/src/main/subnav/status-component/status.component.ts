@@ -116,7 +116,7 @@ export class StatusComponent implements OnInit, OnDestroy {
 
         const onDisableSub = this.openModal({
             title: "Disable",
-            body: "Are you sure you want to disable the plugin?",
+            body: "Are you sure you want to disable the plugins?",
             decline: "No",
             accept: "Yes",
             waitToClose: true
@@ -166,7 +166,7 @@ export class StatusComponent implements OnInit, OnDestroy {
         
         const onEnableSub = this.openModal({
             title: "Enable",
-            body: "Are you sure you want to enable the plugin?",
+            body: "Are you sure you want to enable the plugins?",
             decline: "No",
             accept: "Yes",
             waitToClose: true
@@ -222,7 +222,7 @@ export class StatusComponent implements OnInit, OnDestroy {
         // Open modal to notify the user
         onDeleteSub = this.openModal({
             title: "Delete",
-            body: "Are you sure you want to delete the plugin?",
+            body: "Are you sure you want to delete the plugins?",
             decline: "No",
             accept: "Yes",
             waitToClose: true
@@ -285,7 +285,7 @@ export class StatusComponent implements OnInit, OnDestroy {
     public publishForAllTenants(): void {
         const onPublishForAllSub = this.openModal({
             title: "Publish for all tenants",
-            body: "Are you sure you want to publish the plugin for all tenants?",
+            body: "Are you sure you want to publish the plugins for all tenants?",
             decline: "No",
             accept: "Yes",
             waitToClose: true
@@ -341,7 +341,7 @@ export class StatusComponent implements OnInit, OnDestroy {
     public unpublishForAllTenants(): void {
         const onUnpublishForAllSub = this.openModal({
             title: "Unpublish for all tenants",
-            body: "Are you sure you want to unpublish the plugin for all tenants?",
+            body: "Are you sure you want to unpublish the plugins for all tenants?",
             decline: "No",
             accept: "Yes",
             waitToClose: true
