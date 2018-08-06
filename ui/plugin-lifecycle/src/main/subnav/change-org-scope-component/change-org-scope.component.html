@@ -7,9 +7,7 @@
 
             <vcd-choose-org-scope
                 [(feedback)]="feedback"
-                [listOfOrgsPerPlugin]="listOfOrgsPerPlugin"
-                [canPublish]="action === 'publish' ? true : false"
-                [canUnpublish]="action !== 'publish' ? true : false">
+                [listOfOrgsPerPlugin]="listOfOrgsPerPlugin">
             </vcd-choose-org-scope>
             <vcd-change-org-scope-tracker [(open)]="showTracker"></vcd-change-org-scope-tracker>
         </div>

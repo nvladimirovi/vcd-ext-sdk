@@ -45,7 +45,16 @@
                 <clr-wizard-button [type]="'custom-finish'">Finish</clr-wizard-button>
             </ng-template>
 
-            <vcd-choose-org-scope [(feedback)]="scopeFeedback" [listOfOrgsPerPlugin]="listOfOrgsPerPlugin" [canUnpublish]="false"></vcd-choose-org-scope>
+            <div class="checkbox">
+                <input type="checkbox" name="publishing" id="publishing" [(ngModel)]="publishing">
+                <label for="publishing">Do you want to publish?</label>
+            </div>
+
+            <vcd-choose-org-scope
+                *ngIf="publishing"
+                [(feedback)]="scopeFeedback"
+                [listOfOrgsPerPlugin]="listOfOrgsPerPlugin">
+            </vcd-choose-org-scope>
         </clr-wizard-page>
     </clr-wizard>
 </div>

@@ -60,6 +60,8 @@ export class UploadComponent implements OnInit {
     public alertMessage: string;
     public listOfOrgsPerPlugin: ChangeScopeItem[];
     public orgs: Organisation[];
+    // Toggle publish section
+    public publishing: boolean;
 
     public watchOrgsSubs: Subscription;
     public uploadSubs: Subscription;
