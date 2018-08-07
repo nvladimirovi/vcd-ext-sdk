@@ -105,7 +105,7 @@ export class ChangeOrgScope implements OnInit {
             });
             const subs = Observable.merge(...changeScopeRequests)
                 .subscribe((res) => {
-                    if (res.status === 500) {
+                    if (res.status !== 200) {
                         this.changeScopeService.changeReqStatusTo(res.url, false);
                         return;
                     }
@@ -129,7 +129,7 @@ export class ChangeOrgScope implements OnInit {
             });
             const subs = Observable.merge(...changeScopeRequests)
                 .subscribe((res) => {
-                    if (res.status === 500) {
+                    if (res.status !== 200) {
                         this.changeScopeService.changeReqStatusTo(res.url, false);
                         return;
                     }
@@ -154,7 +154,7 @@ export class ChangeOrgScope implements OnInit {
             });
             const subs = Observable.merge(...changeScopeRequests)
                 .subscribe((res) => {
-                    if (res.status === 500) {
+                    if (res.status !== 200) {
                         this.changeScopeService.changeReqStatusTo(res.url, false);
                         return;
                     }
