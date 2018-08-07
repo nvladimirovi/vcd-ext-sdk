@@ -329,9 +329,11 @@ export class StatusComponent implements OnInit, OnDestroy {
                         this.errorMessage = error.message;
                         // Notify the service if request complete successfully
                         subscription.unsubscribe();
+                        onPublishForAllSub.unsubscribe();
                     },
                     () => {
                         subscription.unsubscribe();
+                        onPublishForAllSub.unsubscribe();
                     }
                 );
             });
@@ -388,9 +390,11 @@ export class StatusComponent implements OnInit, OnDestroy {
                         this.errorMessage = error.message;
                         // Notify the service if request complete successfully
                         subscription.unsubscribe();
+                        onUnpublishForAllSub.unsubscribe();
                     },
                     () => {
                         subscription.unsubscribe();
+                        onUnpublishForAllSub.unsubscribe();
                     }
                 );
             });

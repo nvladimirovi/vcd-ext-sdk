@@ -109,6 +109,7 @@ export class ChangeOrgScope implements OnInit {
                         this.changeScopeService.changeReqStatusTo(res.url, false);
                         return;
                     }
+
                     this.changeScopeService.changeReqStatusTo(res.url, true);
                 }, (error) => {
                     this.alertMessage = error.message;
