@@ -2,13 +2,13 @@ import { Injectable } from "@angular/core";
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
 import { PluginManifest, PluginFileDetails } from "../interfaces/Plugin";
 import { PluginValidator } from "../classes/plugin-validator";
-import { AuthService } from "./auth.service";
+import { AuthTokenHolderService } from "@vcd-ui/common";
 
 @Injectable()
 export class PluginUploaderService {
     constructor(
         private http: Http,
-        private authService: AuthService
+        private authService: AuthTokenHolderService
     ) {}
 
     /**
@@ -55,7 +55,7 @@ export class PluginUploaderService {
         const headers = new Headers();
         headers.append("Accept", "application/json");
         headers.append("Content-Type", "application/json");
-        headers.append("x-vcloud-authorization", this.authService.getAuthToken());
+        headers.append("x-vcloud-authorization", this.authService.token);
         const opts = new RequestOptions();
         opts.headers = headers;
 
@@ -77,7 +77,7 @@ export class PluginUploaderService {
         // Create headers
         const headers = new Headers();
         headers.append("Content-Type", "application/zip");
-        headers.append("x-vcloud-authorization", this.authService.getAuthToken());
+        headers.append("x-vcloud-authorization", this.authService.token);
         const opts = new RequestOptions();
         opts.headers = headers;
 

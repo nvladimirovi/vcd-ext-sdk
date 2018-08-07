@@ -2,18 +2,18 @@ import { Injectable } from "@angular/core";
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs";
 import { Plugin, ChangeScopePlugin } from "../interfaces/Plugin";
-import { AuthService } from "./auth.service";
 import { ChangeScopeRequest } from "../classes/ChangeScopeRequest";
 import { ChangeOrgScopeService } from "./change-org-scope.service";
 import { ScopeFeedback } from "../classes/ScopeFeedback";
 import { ChangeScopeItem } from "../interfaces/ChangeScopeItem";
 import { ChangeScopeRequestTo } from "../interfaces/ChangeScopeRequestTo";
+import { AuthTokenHolderService } from "@vcd-ui/common";
 
 @Injectable()
 export class PluginPublisher {
     constructor(
         private http: Http,
-        private authService: AuthService,
+        private authService: AuthTokenHolderService,
         private changeOrgScopeService: ChangeOrgScopeService
     ) {}
 
@@ -24,11 +24,13 @@ export class PluginPublisher {
      * @param hasToBe string value which says "published" or "unpublished"
      * @param trackScopeChange determinate will this request be tracked
      */
-    private togglePluginStateForAllTenants(plugins: Plugin[], url: string, hasToBe: string, trackScopeChange: boolean = false): ChangeScopeRequestTo[] {
+    private togglePluginStateForAllTenants(
+        plugins: Plugin[], url: string, hasToBe: string, trackScopeChange: boolean = false
+    ): ChangeScopeRequestTo[] {
         // Create headers
         const headers = new Headers();
         headers.append("Accept", "application/json");
-        headers.append("x-vcloud-authorization", this.authService.getAuthToken());
+        headers.append("x-vcloud-authorization", this.authService.token);
         const opts = new RequestOptions();
         opts.headers = headers;
 
@@ -61,11 +63,13 @@ export class PluginPublisher {
      * @param url the base url where the request will be made
      * @param hasToBe value which determitate thas is this "publis" or "unpublish" action
      */
-    private togglePluginStateForSpecTenants(plugin: Plugin, changeScopeItems: ChangeScopeItem[], trackScopeChange: boolean, url: string, hasToBe: string): ChangeScopeRequestTo {
+    private togglePluginStateForSpecTenants(
+        plugin: Plugin, changeScopeItems: ChangeScopeItem[], trackScopeChange: boolean, url: string, hasToBe: string
+    ): ChangeScopeRequestTo {
         // Create headers
         const headers = new Headers();
         headers.append("Accept", "application/json");
-        headers.append("x-vcloud-authorization", this.authService.getAuthToken());
+        headers.append("x-vcloud-authorization", this.authService.token);
         const opts = new RequestOptions();
         opts.headers = headers;
 
@@ -82,7 +86,9 @@ export class PluginPublisher {
 
         // Track the request if needed
         if (trackScopeChange) {
-            this.changeOrgScopeService.addChangeScopeReq(new ChangeScopeRequest(REQ_URL, plugin.pluginName ? plugin.pluginName : plugin.id, `${hasToBe}`));
+            this.changeOrgScopeService.addChangeScopeReq(
+                new ChangeScopeRequest(REQ_URL, plugin.pluginName ? plugin.pluginName : plugin.id, `${hasToBe}`)
+            );
         }
 
         return {
@@ -118,7 +124,9 @@ export class PluginPublisher {
      * @param trackScopeChange determinate will this request be tracked
      * @param scopeFeedback contains the data which will be applied on each plugin into the list
      */
-    public handleMixedScope(plugins: ChangeScopePlugin[], scopeFeedback: ScopeFeedback, trackScopeChange: boolean, url: string): ChangeScopeRequestTo[] {
+    public handleMixedScope(
+        plugins: ChangeScopePlugin[], scopeFeedback: ScopeFeedback, trackScopeChange: boolean, url: string
+    ): ChangeScopeRequestTo[] {
         // Create the result object with the url of the request and the request
         const result: { url: string, req: Observable<Response> }[] = [];
 
@@ -130,22 +138,22 @@ export class PluginPublisher {
 
             // Extract data for publishing
             const toBePublished = changeScopeItems.filter((item) => {
-                return item.action === 'publish';
+                return item.action === "publish";
             });
 
             // Extract data for unpublishing
             const toBeUnpublishd = changeScopeItems.filter((item) => {
-                return item.action === 'unpublish';
+                return item.action === "unpublish";
             });
 
             // Add requests into the list if any
             if (toBePublished.length > 0) {
-                result.push(this.togglePluginStateForSpecTenants(selectedPlugin, toBePublished, trackScopeChange, url, 'publish'));
+                result.push(this.togglePluginStateForSpecTenants(selectedPlugin, toBePublished, trackScopeChange, url, "publish"));
             }
 
             if (toBeUnpublishd.length > 0) {
-                result.push(this.togglePluginStateForSpecTenants(selectedPlugin, toBeUnpublishd, trackScopeChange, url, 'unpublish'));
-            }            
+                result.push(this.togglePluginStateForSpecTenants(selectedPlugin, toBeUnpublishd, trackScopeChange, url, "unpublish"));
+            }
         });
 
         return result;

@@ -16,7 +16,6 @@ import { ZipManager } from "./services/zip-manager.service";
 import { UploadZipField } from "./subnav/upload-zip-field-component/upload-zip-field.component";
 import { VcdAlert } from "./subnav/alert-component/alert.component";
 import { VcdManifestStackView } from "./subnav/manifest-stack-view-component/manifest-stack-view.component";
-import { AuthService } from "./services/auth.service";
 import { ChangeOrgScope } from "./subnav/change-org-scope-component/change-org-scope.component";
 import { ChooseOrgScope } from "./subnav/choose-org-scope-component/choose-org-scope.component";
 import { OrganisationService } from "./services/organisation.service";
@@ -73,7 +72,6 @@ const ROUTES: Routes = [
     bootstrap: [SubnavComponent],
     exports: [],
     providers: [
-        AuthService,
         OrganisationService,
         ChangeOrgScopeService,
         ChangeScopeService,

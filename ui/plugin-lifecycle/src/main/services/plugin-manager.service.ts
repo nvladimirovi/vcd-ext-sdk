@@ -3,7 +3,6 @@ import { Http, Response, Headers, RequestOptions } from "@angular/http";
 import { Observable, Subject, BehaviorSubject } from "rxjs";
 import { Plugin, UploadPayload, ChangeScopePlugin } from "../interfaces/Plugin";
 import { PluginValidator } from "../classes/plugin-validator";
-import { AuthService } from "./auth.service";
 import { ScopeFeedback } from "../classes/ScopeFeedback";
 import { DisableEnablePluginService } from "./disable-enable-plugin.service";
 import { PluginUploaderService } from "./plugin-uploader.service";
@@ -11,7 +10,7 @@ import { DeletePluginService } from "./delete-plugin.service";
 import { PluginPublisher } from "./plugin-publisher.service";
 import { ChangeScopeRequestTo } from "../interfaces/ChangeScopeRequestTo";
 import {HttpTransferService} from "@vcd/http-transfer-service";
-import { API_ROOT_URL } from "@vcd-ui/common";
+import { API_ROOT_URL, AuthTokenHolderService } from "@vcd-ui/common";
 
 @Injectable()
 export class PluginManager {
@@ -23,16 +22,14 @@ export class PluginManager {
     constructor(
         @Inject(API_ROOT_URL) private _baseUrl: string = "",
         private http: Http,
-        private authService: AuthService,
+        private authService: AuthTokenHolderService ,
         private disableEnablePlugin: DisableEnablePluginService,
         private pluginUploaderService: PluginUploaderService,
         private deletePluginService: DeletePluginService,
         private pluginPublisher: PluginPublisher,
         private httpTransferService: HttpTransferService
     ) {
-        this.authService.auth().then(() => {
-            this.getPluginsList();
-        });
+        this.getPluginsList();
     }
 
     get baseUrl(): string {
@@ -67,7 +64,7 @@ export class PluginManager {
         const headers = new Headers();
         headers.append("Accept", "application/json");
         headers.append("Content-Type", "application/json");
-        headers.append("x-vcloud-authorization", this.authService.getAuthToken());
+        headers.append("x-vcloud-authorization", this.authService.token);
         const opts = new RequestOptions();
         opts.headers = headers;
         return this.http.get(`${this._baseUrl}/cloudapi/extensions/ui`, opts);
@@ -175,7 +172,7 @@ export class PluginManager {
                 const headers = new Headers();
                 headers.append("Accept", "application/json");
                 headers.append("Content-Type", "application/json");
-                headers.append("x-vcloud-authorization", this.authService.getAuthToken());
+                headers.append("x-vcloud-authorization", this.authService.token);
                 const opts = new RequestOptions();
                 opts.headers = headers;
 
@@ -197,7 +194,7 @@ export class PluginManager {
                 const transferLink = url.slice(1, url.length);
 
                 const headers = {
-                    "x-vcloud-authorization": this.authService.getAuthToken()
+                    "x-vcloud-authorization": this.authService.token
                 };
 
                 // Upload the plugin chunk by chunk
