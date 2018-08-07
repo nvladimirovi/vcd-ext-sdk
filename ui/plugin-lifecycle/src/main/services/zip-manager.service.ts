@@ -21,7 +21,7 @@ export class ZipManager {
             manifest.getData(new zip.TextWriter(), function(text: string) {
                 // text contains the entry data as a String
                 resolve(text);
-        
+
               }, function(current: number, total: number) {
                 // onprogress callback
               });
@@ -50,8 +50,9 @@ export class ZipManager {
             }
 
             entries.forEach((entrie) => {
-                const validStructure = /((manifest|i18n|).(json)$)|((bundle).(js)$)|([0-9]|[a-z]+\/)([0-9]|[a-z]+).(svg|png|jpg)$/gm.test(entrie.filename);
-            
+                const validStructure = /((manifest|i18n|).(json)$)|((bundle).(js)$)|([0-9]|[a-z]+\/)([0-9]|[a-z]+).(svg|png|jpg)$/gm
+                    .test(entrie.filename);
+
                 if (!validStructure) {
                     resolve({
                         isValid: false,
@@ -59,7 +60,7 @@ export class ZipManager {
                     });
                     return;
                 }
-            })
+            });
 
             resolve({
                 isValid: true,
@@ -101,12 +102,12 @@ export class ZipManager {
             })
             .then((data) => {
                 if (!data.isValid) {
-                    throw new Error('Plugin file structure is incorrect!');
+                    throw new Error("Plugin file structure is incorrect!");
                 }
 
                 const manifestFile = data.entries.find((file) => {
-                    return file.filename === 'manifest.json';
-                })
+                    return file.filename === "manifest.json";
+                });
 
                 return this.readManifestFile(manifestFile);
             });
