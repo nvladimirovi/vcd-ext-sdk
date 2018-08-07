@@ -29,10 +29,9 @@ import { CapitalizeFirstPipe } from "./pipes/capitalizefirst/capitalizefirst.pip
 import { ChangeScope } from "./subnav/change-scope-component/change-scope.component";
 import { ChangeScopeService } from "./services/change-scope.service";
 import { ChooseScope } from "./subnav/choose-scope-component/choose-scope.component";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { ErrorNotifyerComponent } from "./subnav/error-notifyer-component/error-notifyer.component";
 import { VcdHttpTransferServiceModule } from "@vcd/http-transfer-service";
-import { VcdSdkModule, VcdApiClient } from "@vcd/sdk";
 
 const ROUTES: Routes = [
     { path: "", component: SubnavComponent, children: [
@@ -51,7 +50,6 @@ const ROUTES: Routes = [
         FormsModule,
         HttpClientModule,
         VcdHttpTransferServiceModule,
-        VcdSdkModule,
         RouterModule.forChild(ROUTES)
     ],
     declarations: [
@@ -74,7 +72,6 @@ const ROUTES: Routes = [
     bootstrap: [SubnavComponent],
     exports: [],
     providers: [
-        VcdApiClient,
         OrganisationService,
         ChangeOrgScopeService,
         ChangeScopeService,
