@@ -30,14 +30,9 @@ import { CapitalizeFirstPipe } from "./pipes/capitalizefirst/capitalizefirst.pip
 import { ChangeScope } from "./subnav/change-scope-component/change-scope.component";
 import { ChangeScopeService } from "./services/change-scope.service";
 import { ChooseScope } from "./subnav/choose-scope-component/choose-scope.component";
-// import { HttpTransferService, CHUNK_SIZE, PARALLEL_REQUESTS } from "./services/http-transfer.service";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { ErrorNotifyerComponent } from "./subnav/error-notifyer-component/error-notifyer.component";
-import { VcdHttpTransferServiceModule } from "@vcd/http-transfer-service"
-
-// export function transferServiceFactory(httpClient: HttpClient) {
-//     return new HttpTransferService(httpClient, CHUNK_SIZE, PARALLEL_REQUESTS);
-// }
+import { VcdHttpTransferServiceModule } from "@vcd/http-transfer-service";
 
 const ROUTES: Routes = [
     { path: "", component: SubnavComponent, children: [
@@ -78,11 +73,6 @@ const ROUTES: Routes = [
     bootstrap: [SubnavComponent],
     exports: [],
     providers: [
-        // {
-        //     provide: HttpTransferService,
-        //     useFactory: transferServiceFactory,
-        //     deps: [HttpClient]
-        // },
         AuthService,
         OrganisationService,
         ChangeOrgScopeService,

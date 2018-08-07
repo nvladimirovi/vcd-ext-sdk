@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, Inject } from "@angular/core";
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
 import { Observable, Subject, BehaviorSubject } from "rxjs";
 import { Plugin, UploadPayload, ChangeScopePlugin } from "../interfaces/Plugin";
@@ -10,19 +10,18 @@ import { PluginUploaderService } from "./plugin-uploader.service";
 import { DeletePluginService } from "./delete-plugin.service";
 import { PluginPublisher } from "./plugin-publisher.service";
 import { ChangeScopeRequestTo } from "../interfaces/ChangeScopeRequestTo";
-// import { HttpTransferService } from "./http-transfer.service";
 import {HttpTransferService} from "@vcd/http-transfer-service";
+import { API_ROOT_URL } from "@vcd-ui/common";
 
 @Injectable()
 export class PluginManager {
-    private _baseUrl = "https://bos1-vcd-sp-static-200-117.eng.vmware.com";
     private _plugins: Plugin[];
     private _pluginsSubject = new BehaviorSubject<Plugin[]>(this._plugins);
-    
     private _selectedPlugins: Plugin[] = [];
     private _selectedPluginsSubj = new BehaviorSubject<Plugin[]>(this.selectedPlugins);
 
     constructor(
+        @Inject(API_ROOT_URL) private _baseUrl: string = "",
         private http: Http,
         private authService: AuthService,
         private disableEnablePlugin: DisableEnablePluginService,
@@ -119,7 +118,7 @@ export class PluginManager {
     /**
      * Publish or unpublish list of plugins.
      */
-    public handleMixedScope(plugins: ChangeScopePlugin[], scopeFeedback: ScopeFeedback, trackScopeChange: boolean): { url: string, req: Observable<Response> }[] {
+    public handleMixedScope(plugins: ChangeScopePlugin[], scopeFeedback: ScopeFeedback, trackScopeChange: boolean): ChangeScopeRequestTo[] {
         return this.pluginPublisher.handleMixedScope(plugins, scopeFeedback, trackScopeChange, this._baseUrl);
     }
 
@@ -208,7 +207,7 @@ export class PluginManager {
                 // Publish the plugin if this kind of data is provided
                 if (scopeFeedback.forAllOrgs) {
                     observer.next(this.pluginPublisher.publishPluginForAllTenants([PLUGIN], this.baseUrl, false));
-                    return
+                    return;
                 }
 
                 if (scopeFeedback.data.length > 0) {
