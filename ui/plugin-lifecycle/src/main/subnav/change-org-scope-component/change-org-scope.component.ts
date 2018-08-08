@@ -215,7 +215,7 @@ export class ChangeOrgScope implements OnInit {
      */
     public watchSourceData(): void {
         // Merge the plugin and organisation observables
-        this.watchSourceDataSub = Observable.merge<Plugin[], Organisation[]>(
+        this.watchSourceDataSub = Observable.merge<UiPluginMetadataResponse[], Organisation[]>(
             this.pluginManager.watchSelectedPlugins(),
             this.orgService.watchOrgs()
         ).subscribe((data) => {
@@ -225,7 +225,7 @@ export class ChangeOrgScope implements OnInit {
 
             // Assign plugins list
             if (Object.keys(data[0]).indexOf("pluginName") !== -1) {
-                this.plugins = <Plugin[]>data;
+                this.plugins = <UiPluginMetadataResponse[]>data;
             }
 
             // Assaign organisations list
