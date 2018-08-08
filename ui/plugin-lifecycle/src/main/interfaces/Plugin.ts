@@ -53,6 +53,6 @@ export interface PluginFileDetails {
 }
 
 export interface ChangeScopePlugin {
-    id: string;
+    id?: string;
     pluginName: string;
 }
