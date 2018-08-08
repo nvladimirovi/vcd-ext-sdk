@@ -222,8 +222,12 @@ export class PluginManager {
                     }
 
                     if (scopeFeedback.data.length > 0) {
-                        const publishFor = this.handleMixedScope([{ id: PLUGIN.id, pluginName: payload.manifest.name }], scopeFeedback, false);
-                        observer.next(publishFor);
+                        const changeScopeRequests = this.handleMixedScope(
+                            [{ id: PLUGIN.id, pluginName: payload.manifest.name }],
+                            scopeFeedback,
+                            false
+                        );
+                        observer.next(changeScopeRequests);
                         return;
                     }
 
