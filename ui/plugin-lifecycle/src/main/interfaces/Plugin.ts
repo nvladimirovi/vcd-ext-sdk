@@ -1,4 +1,4 @@
-export interface Plugin {
+export interface PluginResponse {
     pluginName: string;
     vendor: string;
     description: string;

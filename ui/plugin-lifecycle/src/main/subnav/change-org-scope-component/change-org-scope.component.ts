@@ -10,9 +10,9 @@ import { Subscription, Observable } from "rxjs";
 import { ChangeScopeItem } from "../../interfaces/ChangeScopeItem";
 import { OrganisationService } from "../../services/organisation.service";
 import { Organisation } from "../../interfaces/Organisation";
-import { Plugin } from "../../interfaces/Plugin";
 import { ChangeScopeRequestTo } from "../../interfaces/ChangeScopeRequestTo";
 import { Response} from "@angular/http";
+import { UiPluginMetadataResponse } from "@vcd/bindings/vcloud/rest/openapi/model";
 
 @Component({
     selector: "vcd-change-org-scope",
@@ -27,7 +27,7 @@ export class ChangeOrgScope implements OnInit {
     public hasToRefresh = false;
     public listOfOrgsPerPlugin: ChangeScopeItem[];
     public orgs: Organisation[];
-    public plugins: Plugin[];
+    public plugins: UiPluginMetadataResponse[];
     public alertMessage: string;
     public alertClasses: string;
 

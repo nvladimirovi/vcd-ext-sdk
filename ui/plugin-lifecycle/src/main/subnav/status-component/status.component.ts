@@ -3,7 +3,6 @@
  */
 import { Component, Inject, OnInit, OnDestroy } from "@angular/core";
 import { EXTENSION_ASSET_URL } from "@vcd-ui/common";
-import { Plugin } from "../../interfaces/Plugin";
 import { PluginManager } from "../../services/plugin-manager.service";
 import { Subscription, Observable, Subject } from "rxjs";
 import { ModalData, ModalWindow } from "../../interfaces/Modal";
@@ -11,6 +10,7 @@ import { PluginValidator } from "../../classes/plugin-validator";
 import { ChangeOrgScopeService } from "../../services/change-org-scope.service";
 import { ChangeScopeRequestTo } from "../../interfaces/ChangeScopeRequestTo";
 import { Response } from "@angular/http";
+import { UiPluginMetadataResponse } from "@vcd/bindings/vcloud/rest/openapi/model/uiPluginMetadataResponse";
 
 interface SubjectModalData {
     accept: boolean;
@@ -21,8 +21,8 @@ interface SubjectModalData {
     templateUrl: "./status.component.html"
 })
 export class StatusComponent implements OnInit, OnDestroy {
-    public _selected: Plugin[];
-    public plugins: Plugin[];
+    public _selected: UiPluginMetadataResponse[];
+    public plugins: UiPluginMetadataResponse[];
     public modal: ModalData;
     public changeScopeState = false;
     public wantToUpload: boolean;
@@ -54,11 +54,11 @@ export class StatusComponent implements OnInit, OnDestroy {
         this.watchPluginListSub.unsubscribe();
     }
 
-    get selected(): Plugin[] {
+    get selected(): UiPluginMetadataResponse[] {
         return this._selected;
     }
 
-    set selected(plugins: Plugin[]) {
+    set selected(plugins: UiPluginMetadataResponse[]) {
         this._selected = plugins;
         this.pluginManager.selectedPlugins = this._selected;
     }
@@ -101,7 +101,7 @@ export class StatusComponent implements OnInit, OnDestroy {
      * Observe the plugin list in plugin manager service
      */
     public watchPluginsList(): void {
-        this.watchPluginListSub = this.pluginManager.watchPluginList().subscribe((plugins: Plugin[]) => {
+        this.watchPluginListSub = this.pluginManager.watchPluginList().subscribe((plugins: UiPluginMetadataResponse[]) => {
             this.plugins = plugins;
         });
     }
