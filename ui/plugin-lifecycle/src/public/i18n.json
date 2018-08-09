@@ -18,5 +18,8 @@
         "subnav.change-org-scope-tracker.datagrid.column.action": "Action",
         "subnav.change-org-scope-tracker.datagrid.column.status": "Status",
         "subnav.change-org-scope-tracker.modal.footer.close.btn": "Close",
+        "subnav.change-scope.modal.title": "Change plugin scope",
+        "subnav.change-scope.modal.footer.close.btn": "Close",
+        "subnav.change-scope.modal.footer.changeScope.btn": "Change Scope",
     }
 }
