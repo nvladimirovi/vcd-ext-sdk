@@ -305,8 +305,6 @@ export class StatusComponent implements OnInit, OnDestroy {
             this.errorMessage = null;
             this.showTracker = true;
 
-            const changeOrgScopeRequestList: Observable<Response>[] = [];
-
             const subscription = this.pluginManager
                 .publishPluginForAllTenants(true)
                 .subscribe((res) => {
