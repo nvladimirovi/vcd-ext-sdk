@@ -105,12 +105,7 @@ export class ChangeOrgScope implements OnInit {
             });
             const subs = Observable.merge(...changeScopeRequests)
                 .subscribe((res) => {
-                    if (res.status !== 200) {
-                        this.changeScopeService.changeReqStatusTo(res.url, false);
-                        return;
-                    }
-
-                    this.changeScopeService.changeReqStatusTo(res.url, true);
+                    this.changeScopeService.handleCompletedRequest(res);
                 }, (error) => {
                     this.alertMessage = error.message;
                     this.alertClasses = "alert-danger";
@@ -130,12 +125,7 @@ export class ChangeOrgScope implements OnInit {
             });
             const subs = Observable.merge(...changeScopeRequests)
                 .subscribe((res) => {
-                    if (res.status !== 200) {
-                        this.changeScopeService.changeReqStatusTo(res.url, false);
-                        return;
-                    }
-
-                    this.changeScopeService.changeReqStatusTo(res.url, true);
+                    this.changeScopeService.handleCompletedRequest(res);
                 }, (error) => {
                     this.alertMessage = error.message;
                     this.alertClasses = "alert-danger";
@@ -155,12 +145,7 @@ export class ChangeOrgScope implements OnInit {
             });
             const subs = Observable.merge(...changeScopeRequests)
                 .subscribe((res) => {
-                    if (res.status !== 200) {
-                        this.changeScopeService.changeReqStatusTo(res.url, false);
-                        return;
-                    }
-
-                    this.changeScopeService.changeReqStatusTo(res.url, true);
+                    this.changeScopeService.handleCompletedRequest(res);
                 }, (error) => {
                     this.alertMessage = error.message;
                     this.alertClasses = "alert-danger";

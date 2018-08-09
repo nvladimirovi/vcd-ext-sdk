@@ -315,13 +315,7 @@ export class StatusComponent implements OnInit, OnDestroy {
 
                 const subscription = Observable.merge(...changeOrgScopeRequestList).subscribe(
                     (res) => {
-                        if (res.status !== 200) {
-                            this.changeOrgScopeService.changeReqStatusTo(res.url, false);
-                            return;
-                        }
-
-                        // Notify the service if request complete successfully
-                        this.changeOrgScopeService.changeReqStatusTo(res.url, true);
+                        this.changeOrgScopeService.handleCompletedRequest(res);
                     },
                     (error) => {
                         this.endLoading();
@@ -376,13 +370,7 @@ export class StatusComponent implements OnInit, OnDestroy {
 
                 const subscription = Observable.merge(...changeOrgScopeRequestList).subscribe(
                     (res) => {
-                        if (res.status !== 200) {
-                            this.changeOrgScopeService.changeReqStatusTo(res.url, false);
-                            return;
-                        }
-
-                        // Notify the service if request complete successfully
-                        this.changeOrgScopeService.changeReqStatusTo(res.url, true);
+                        this.changeOrgScopeService.handleCompletedRequest(res);
                     },
                     (error) => {
                         this.endLoading();
