@@ -53,7 +53,8 @@
             <vcd-choose-org-scope
                 *ngIf="publishing"
                 [(feedback)]="scopeFeedback"
-                [listOfOrgsPerPlugin]="listOfOrgsPerPlugin">
+                [listOfOrgsPerPlugin]="listOfOrgsPerPlugin"
+                [option]="'published'">
             </vcd-choose-org-scope>
         </clr-wizard-page>
 
