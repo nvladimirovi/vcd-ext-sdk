@@ -4,7 +4,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { HttpModule } from "@angular/http";
 import { ClarityModule } from "clarity-angular";
 import { Store } from "@ngrx/store";
-import { EXTENSION_ROUTE, ExtensionNavRegistration, ExtensionNavRegistrationAction, I18nModule } from "@vcd-ui/common";
+import { EXTENSION_ROUTE, ExtensionNavRegistration } from "@vcd-ui/common";
 import { SubnavComponent } from "./subnav/subnav.component";
 import { AboutComponent } from "./subnav/about.component";
 import { StatusComponent } from "./subnav/status-component/status.component";
@@ -33,6 +33,8 @@ import { HttpClientModule } from "@angular/common/http";
 import { ErrorNotifyerComponent } from "./subnav/error-notifyer-component/error-notifyer.component";
 import { VcdHttpTransferServiceModule } from "@vcd/http-transfer-service";
 import { VcdApiClient, VcdSdkModule } from "@vcd/sdk";
+import { PluginModule } from "@vcd/sdk/core";
+import { TranslateService } from "@vcd/sdk/i18n";
 
 const ROUTES: Routes = [
     {
@@ -49,7 +51,6 @@ const ROUTES: Routes = [
         ClarityModule,
         CommonModule,
         HttpModule,
-        I18nModule,
         FormsModule,
         HttpClientModule,
         VcdSdkModule,
@@ -88,14 +89,14 @@ const ROUTES: Routes = [
         ZipManager
     ],
 })
-export class SubnavPluginModule {
-    constructor(private appStore: Store<any>, @Inject(EXTENSION_ROUTE) extensionRoute: string) {
-        const registration: ExtensionNavRegistration = {
+export class SubnavPluginModule extends PluginModule {
+    constructor(appStore: Store<any>, @Inject(EXTENSION_ROUTE) extensionRoute: string, translate: TranslateService) {
+        super(appStore, translate);
+        this.registerExtension(<ExtensionNavRegistration>{
             path: extensionRoute,
             icon: "page",
             nameCode: "nav.label",
             descriptionCode: "nav.description"
-        };
-        appStore.dispatch(new ExtensionNavRegistrationAction(registration));
+        });
     }
 }

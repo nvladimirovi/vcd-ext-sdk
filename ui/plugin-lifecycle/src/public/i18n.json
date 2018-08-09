@@ -55,5 +55,23 @@
         "subnav.manifest-stack-view.stack-view.label.link": "Link",
         "subnav.manifest-stack-view.stack-view.label.module": "Module",
         "subnav.manifest-stack-view.stack-view.label.route": "Route",
+        "subnav.upload-plugin.wizard.title": "Upload plugin",
+        "subnav.upload-plugin.wizard.page-1.title": "Upload plugin",
+        "subnav.upload-plugin.wizard.page-1.cancel.btn": "Cancel",
+        "subnav.upload-plugin.wizard.page-1.next.btn": "Next",
+        "subnav.upload-plugin.wizard.page-2.title": "Select scope",
+        "subnav.upload-plugin.wizard.page-2.cancel.btn": "Cancel",
+        "subnav.upload-plugin.wizard.page-2.next.btn": "Next",
+        "subnav.upload-plugin.wizard.page-2.back.btn": "Back",
+        "subnav.upload-plugin.wizard.page-3.title": "Select Organisation Scope",
+        "subnav.upload-plugin.wizard.page-3.cancel.btn": "Cancel",
+        "subnav.upload-plugin.wizard.page-3.next.btn": "Next",
+        "subnav.upload-plugin.wizard.page-3.back.btn": "Back",
+        "subnav.upload-plugin.wizard.page-3.publish.text": "Publish the plugin",
+        "subnav.upload-plugin.wizard.page-4.title": "Summary",
+        "subnav.upload-plugin.wizard.page-4.cancel.btn": "Cancel",
+        "subnav.upload-plugin.wizard.page-4.finish.btn": "Finish",
+        "subnav.upload-plugin.wizard.page-4.back.btn": "Back",
+        "subnav.upload-plugin.wizard.page-4.summary.heading": "Your changes will:"
     }
 }
