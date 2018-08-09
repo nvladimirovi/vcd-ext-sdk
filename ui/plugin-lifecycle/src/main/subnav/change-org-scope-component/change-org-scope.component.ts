@@ -96,10 +96,14 @@ export class ChangeOrgScope implements OnInit {
      */
     public onUpdate(): void {
         if (this.feedback.forAllOrgs && this.action === "publish") {
-            // Reset values
-            this.beforeUpdate();
-
-            const subs = this.pluginManager.publishPluginForAllTenants(true).first().subscribe((res) => {
+            const subs = this.pluginManager.publishPluginForAllTenants(true).first()
+            .map((res, index) => {
+                if (index === 0) {
+                    this.beforeUpdate();
+                }
+                return res;
+            })
+            .subscribe((res) => {
                 this.changeScopeService.handleCompletedRequest(res);
             }, (error) => {
                 console.error(error);
@@ -112,10 +116,14 @@ export class ChangeOrgScope implements OnInit {
         }
 
         if (this.feedback.forAllOrgs && this.action === "unpublish") {
-            // Reset values
-            this.beforeUpdate();
-
-            const subs = this.pluginManager.unpublishPluginForAllTenants(true).subscribe((res) => {
+            const subs = this.pluginManager.unpublishPluginForAllTenants(true)
+            .map((res, index) => {
+                if (index === 0) {
+                    this.beforeUpdate();
+                }
+                return res;
+            })
+            .subscribe((res) => {
                 this.changeScopeService.handleCompletedRequest(res);
             }, (error) => {
                 console.error(error);
@@ -128,10 +136,14 @@ export class ChangeOrgScope implements OnInit {
         }
 
         if (!this.feedback.forAllOrgs && this.feedback.data.length > 0) {
-            // Reset values
-            this.beforeUpdate();
-
-            const subs = this.pluginManager.handleMixedScope(this.plugins, this.feedback, true).subscribe((res) => {
+            const subs = this.pluginManager.handleMixedScope(this.plugins, this.feedback, true)
+            .map((res, index) => {
+                if (index === 0) {
+                    this.beforeUpdate();
+                }
+                return res;
+            })
+            .subscribe((res) => {
                 this.changeScopeService.handleCompletedRequest(res);
             }, (error) => {
                 console.error(error);
