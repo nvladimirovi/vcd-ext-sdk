@@ -21,5 +21,6 @@
         "subnav.change-scope.modal.title": "Change plugin scope",
         "subnav.change-scope.modal.footer.close.btn": "Close",
         "subnav.change-scope.modal.footer.changeScope.btn": "Change Scope",
+        "subnav.errorNotifyer.modal.title": "Error",
     }
 }
