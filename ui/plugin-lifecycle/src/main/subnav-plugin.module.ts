@@ -32,6 +32,7 @@ import { ChooseScope } from "./subnav/choose-scope-component/choose-scope.compon
 import { HttpClientModule } from "@angular/common/http";
 import { ErrorNotifyerComponent } from "./subnav/error-notifyer-component/error-notifyer.component";
 import { VcdHttpTransferServiceModule } from "@vcd/http-transfer-service";
+import { VcdApiClient, VcdSdkModule } from "@vcd/sdk";
 
 const ROUTES: Routes = [
     { path: "", component: SubnavComponent, children: [
@@ -49,6 +50,7 @@ const ROUTES: Routes = [
         I18nModule,
         FormsModule,
         HttpClientModule,
+        VcdSdkModule,
         VcdHttpTransferServiceModule,
         RouterModule.forChild(ROUTES)
     ],
@@ -72,6 +74,7 @@ const ROUTES: Routes = [
     bootstrap: [SubnavComponent],
     exports: [],
     providers: [
+        VcdApiClient,
         OrganisationService,
         ChangeOrgScopeService,
         ChangeScopeService,
