@@ -99,19 +99,15 @@ export class ChangeOrgScope implements OnInit {
             // Reset values
             this.beforeUpdate();
 
-            const changeScopeRequests: Observable<Response>[] = [];
-            this.pluginManager.publishPluginForAllTenants(true).forEach((changeScopeReq: ChangeScopeRequestTo) => {
-                changeScopeRequests.push(changeScopeReq.req);
+            const subs = this.pluginManager.publishPluginForAllTenants(true).first().subscribe((res) => {
+                this.changeScopeService.handleCompletedRequest(res);
+            }, (error) => {
+                console.error(error);
+                this.alertMessage = error.message;
+                this.alertClasses = "alert-danger";
+            }, () => {
+                subs.unsubscribe();
             });
-            const subs = Observable.merge(...changeScopeRequests)
-                .subscribe((res) => {
-                    this.changeScopeService.handleCompletedRequest(res);
-                }, (error) => {
-                    this.alertMessage = error.message;
-                    this.alertClasses = "alert-danger";
-                }, () => {
-                    subs.unsubscribe();
-                });
             return;
         }
 
@@ -119,19 +115,15 @@ export class ChangeOrgScope implements OnInit {
             // Reset values
             this.beforeUpdate();
 
-            const changeScopeRequests: Observable<Response>[] = [];
-            this.pluginManager.unpublishPluginForAllTenants(true).forEach((changeScopeReq: ChangeScopeRequestTo) => {
-                changeScopeRequests.push(changeScopeReq.req);
+            const subs = this.pluginManager.unpublishPluginForAllTenants(true).subscribe((res) => {
+                this.changeScopeService.handleCompletedRequest(res);
+            }, (error) => {
+                console.error(error);
+                this.alertMessage = error.message;
+                this.alertClasses = "alert-danger";
+            }, () => {
+                subs.unsubscribe();
             });
-            const subs = Observable.merge(...changeScopeRequests)
-                .subscribe((res) => {
-                    this.changeScopeService.handleCompletedRequest(res);
-                }, (error) => {
-                    this.alertMessage = error.message;
-                    this.alertClasses = "alert-danger";
-                }, () => {
-                    subs.unsubscribe();
-                });
             return;
         }
 
@@ -139,19 +131,15 @@ export class ChangeOrgScope implements OnInit {
             // Reset values
             this.beforeUpdate();
 
-            const changeScopeRequests: Observable<Response>[] = [];
-            this.pluginManager.handleMixedScope(this.plugins, this.feedback, true).forEach((changeScopeReq: ChangeScopeRequestTo) => {
-                changeScopeRequests.push(changeScopeReq.req);
+            const subs = this.pluginManager.handleMixedScope(this.plugins, this.feedback, true).subscribe((res) => {
+                this.changeScopeService.handleCompletedRequest(res);
+            }, (error) => {
+                console.error(error);
+                this.alertMessage = error.message;
+                this.alertClasses = "alert-danger";
+            }, () => {
+                subs.unsubscribe();
             });
-            const subs = Observable.merge(...changeScopeRequests)
-                .subscribe((res) => {
-                    this.changeScopeService.handleCompletedRequest(res);
-                }, (error) => {
-                    this.alertMessage = error.message;
-                    this.alertClasses = "alert-danger";
-                }, () => {
-                    subs.unsubscribe();
-                });
             return;
         }
 
