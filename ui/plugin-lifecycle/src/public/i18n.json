@@ -10,6 +10,13 @@
         "subnav.status.content": "Current time is {0} and the plugin status is WORKING",
         "subnav.about.content.1": "This is an example plugin that showcases sub-navigation, globalization, and styling",
         "subnav.about.content.2": "To build your own plugin, clone the seed project at https://github.com/vmware/vcd-ext-sdk",
-        "subnav.change-org-scope.close.btn": "Close"
+        "subnav.change-org-scope.close.btn": "Close",
+        "subnav.change-org-scope.update.btn": "Update",
+        "subnav.change-ort-scope-tracker.modal.title": "Change Scope Requests",
+        "subnav.change-ort-scope-tracker.org.notFoundMessage": "We couldn't find any plugins...",
+        "subnav.change-ort-scope-tracker.datagrid.column.pluginName": "Plugin Name",
+        "subnav.change-ort-scope-tracker.datagrid.column.action": "Action",
+        "subnav.change-ort-scope-tracker.datagrid.column.status": "Status",
+        "subnav.change-ort-scope-tracker.modal.footer.close.btn": "Close",
     }
 }
