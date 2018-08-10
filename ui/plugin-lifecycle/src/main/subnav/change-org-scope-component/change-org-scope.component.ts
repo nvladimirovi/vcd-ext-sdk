@@ -101,7 +101,7 @@ export class ChangeOrgScope implements OnInit {
         this.resetAlertPayload();
 
         if (this.feedback.forAllOrgs && this.action === "publish") {
-            const subs = this.pluginManager.publishPluginForAllTenants(true).first()
+            const subs = this.pluginManager.publishPluginForAllTenants(true)
             .map((res, index) => {
                 if (index === 0) {
                     this.beforeUpdate();
