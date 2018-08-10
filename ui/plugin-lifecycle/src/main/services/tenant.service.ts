@@ -1,38 +1,38 @@
 import { Injectable } from "@angular/core";
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
-import { Organisation } from "../interfaces/Organisation";
+import { Tenant } from "../interfaces/Tenant";
 import { Observable, BehaviorSubject } from "rxjs";
 import { XMLHelper } from "../classes/XMLHelper";
 import { PluginManager } from "./plugin-manager.service";
 import { AuthTokenHolderService } from "@vcd-ui/common";
 
 @Injectable()
-export class OrganisationService {
-    private _orgs: Organisation[] = [];
-    private _orgsSubject = new BehaviorSubject<Organisation[]>(this.orgs);
+export class TenantService {
+    private _orgs: Tenant[] = [];
+    private _orgsSubject = new BehaviorSubject<Tenant[]>(this.orgs);
 
     constructor(
         private http: Http,
         private authService: AuthTokenHolderService,
         private pluginManager: PluginManager
     ) {
-        // Load the organisations
+        // Load the tenants
         this.loadOrgs(this.pluginManager.baseUrl);
     }
 
-    get orgs(): Organisation[] {
+    get orgs(): Tenant[] {
         return this._orgs;
     }
 
-    set orgs(orgs: Organisation[]) {
+    set orgs(orgs: Tenant[]) {
         this._orgs = orgs;
     }
 
     /**
-     * Add new organisation into the list.
-     * @param org organisation which will be added into the list
+     * Add new tenant into the list.
+     * @param org tenant which will be added into the list
      */
-    private addOrg(org: Organisation) {
+    private addOrg(org: Tenant) {
         Object.keys(org).forEach((key) => {
             try {
                 org[key] = JSON.parse(org[key]);
@@ -46,14 +46,14 @@ export class OrganisationService {
     }
 
     /**
-     * Observe the list of organisations.
+     * Observe the list of tenants.
      */
-    public watchOrgs(): Observable<Organisation[]> {
+    public watchOrgs(): Observable<Tenant[]> {
         return this._orgsSubject.asObservable();
     }
 
     /**
-     * Refresh the list of organisations.
+     * Refresh the list of tenants.
      */
     public refresh() {
         this.loadOrgs(this.pluginManager.baseUrl);
@@ -63,7 +63,7 @@ export class OrganisationService {
      * Make request to take all existing organistaions.
      */
     private loadOrgs(url: string): void {
-        this.getAllOrganisations(url, this.authService.token)
+        this.getAllTenants(url, this.authService.token)
             .then((res: Response) => {
                 // Parse the xml response
                 const parser = new DOMParser();
@@ -85,11 +85,11 @@ export class OrganisationService {
     }
 
     /**
-     * Creates a request to take all organisations.
+     * Creates a request to take all tenants.
      * @param baseUrl the url where the request will be made
      * @param token the authorization token
      */
-    private getAllOrganisations(baseUrl: string, token: string): Promise<Response> {
+    private getAllTenants(baseUrl: string, token: string): Promise<Response> {
         const headers = new Headers();
         headers.append("Accept", "application/*+xml;version=31.0");
         headers.append("x-vcloud-authorization", token);
