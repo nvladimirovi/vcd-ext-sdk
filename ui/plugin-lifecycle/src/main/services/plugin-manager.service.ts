@@ -11,6 +11,7 @@ import { PluginPublisher } from "./plugin-publisher.service";
 import { HttpTransferService } from "@vcd/http-transfer-service";
 import { API_ROOT_URL, AuthTokenHolderService } from "@vcd-ui/common";
 import { UiPluginMetadataResponse } from "@vcd/bindings/vcloud/rest/openapi/model";
+import { PluginService } from "./plugin.service";
 
 @Injectable()
 export class PluginManager {
@@ -27,7 +28,8 @@ export class PluginManager {
         private pluginUploaderService: PluginUploaderService,
         private deletePluginService: DeletePluginService,
         private pluginPublisher: PluginPublisher,
-        private httpTransferService: HttpTransferService
+        private httpTransferService: HttpTransferService,
+        private pluginService: PluginService
     ) {
         this.getPluginsList();
     }
@@ -91,6 +93,8 @@ export class PluginManager {
      * @param plugins list of plugins
      */
     public deletePlugins(): Promise<Response[]> {
+        
+
         return this.deletePluginService.deletePlugins(this.selectedPlugins, this._baseUrl);
     }
 
