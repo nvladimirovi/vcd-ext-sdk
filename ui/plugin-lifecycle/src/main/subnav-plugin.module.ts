@@ -21,13 +21,10 @@ import { ChooseOrgScope } from "./subnav/choose-org-scope-component/choose-org-s
 import { OrganisationService } from "./services/organisation.service";
 import { ChangeOrgScopeTracker } from "./subnav/change-org-scope-tracker-component/change-org-scope-tracker.component";
 import { ChangeOrgScopeService } from "./services/change-org-scope.service";
-import { DeletePluginService } from "./services/delete-plugin.service";
 import { PluginUploaderService } from "./services/plugin-uploader.service";
-import { DisableEnablePluginService } from "./services/disable-enable-plugin.service";
 import { PluginPublisher } from "./services/plugin-publisher.service";
 import { CapitalizeFirstPipe } from "./pipes/capitalizefirst/capitalizefirst.pipe";
 import { ChangeScope } from "./subnav/change-scope-component/change-scope.component";
-import { ChangeScopeService } from "./services/change-scope.service";
 import { ChooseScope } from "./subnav/choose-scope-component/choose-scope.component";
 import { HttpClientModule } from "@angular/common/http";
 import { ErrorNotifyerComponent } from "./subnav/error-notifyer-component/error-notifyer.component";
@@ -82,9 +79,6 @@ const ROUTES: Routes = [
         PluginService,
         OrganisationService,
         ChangeOrgScopeService,
-        ChangeScopeService,
-        DeletePluginService,
-        DisableEnablePluginService,
         PluginPublisher,
         PluginUploaderService,
         PluginManager,
