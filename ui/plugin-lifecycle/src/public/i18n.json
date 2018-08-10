@@ -63,7 +63,7 @@
         "subnav.upload-plugin.wizard.page-2.cancel.btn": "Cancel",
         "subnav.upload-plugin.wizard.page-2.next.btn": "Next",
         "subnav.upload-plugin.wizard.page-2.back.btn": "Back",
-        "subnav.upload-plugin.wizard.page-3.title": "Select Organisation Scope",
+        "subnav.upload-plugin.wizard.page-3.title": "Select Tenant Scope",
         "subnav.upload-plugin.wizard.page-3.cancel.btn": "Cancel",
         "subnav.upload-plugin.wizard.page-3.next.btn": "Next",
         "subnav.upload-plugin.wizard.page-3.back.btn": "Back",
