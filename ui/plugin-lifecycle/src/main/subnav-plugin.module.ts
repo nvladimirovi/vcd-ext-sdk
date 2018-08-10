@@ -35,6 +35,7 @@ import { VcdHttpTransferServiceModule } from "@vcd/http-transfer-service";
 import { VcdApiClient, VcdSdkModule } from "@vcd/sdk";
 import { PluginModule } from "@vcd/sdk/core";
 import { TranslateService } from "@vcd/sdk/i18n";
+import { PluginService } from "./services/plugin.service";
 
 const ROUTES: Routes = [
     {
@@ -78,6 +79,7 @@ const ROUTES: Routes = [
     exports: [],
     providers: [
         VcdApiClient,
+        PluginService,
         OrganisationService,
         ChangeOrgScopeService,
         ChangeScopeService,
