@@ -6,7 +6,6 @@ import { ChangeScopeRequest } from "../classes/ChangeScopeRequest";
 import { ChangeOrgScopeService } from "./change-org-scope.service";
 import { ScopeFeedback } from "../classes/ScopeFeedback";
 import { ChangeScopeItem } from "../interfaces/ChangeScopeItem";
-import { ChangeScopeRequestTo } from "../interfaces/ChangeScopeRequestTo";
 import { AuthTokenHolderService } from "@vcd-ui/common";
 import { UiPluginMetadataResponse } from "@vcd/bindings/vcloud/rest/openapi/model";
 

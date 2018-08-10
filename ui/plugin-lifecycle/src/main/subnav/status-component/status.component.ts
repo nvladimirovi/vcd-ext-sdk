@@ -8,8 +8,6 @@ import { Subscription, Observable, Subject } from "rxjs";
 import { ModalData, ModalWindow } from "../../interfaces/Modal";
 import { PluginValidator } from "../../classes/plugin-validator";
 import { ChangeOrgScopeService } from "../../services/change-org-scope.service";
-import { ChangeScopeRequestTo } from "../../interfaces/ChangeScopeRequestTo";
-import { Response } from "@angular/http";
 import { UiPluginMetadataResponse } from "@vcd/bindings/vcloud/rest/openapi/model/uiPluginMetadataResponse";
 
 interface SubjectModalData {
