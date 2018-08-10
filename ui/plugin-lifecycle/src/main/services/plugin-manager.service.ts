@@ -10,7 +10,6 @@ import { HttpTransferService } from "@vcd/http-transfer-service";
 import { API_ROOT_URL, AuthTokenHolderService } from "@vcd-ui/common";
 import { UiPluginMetadataResponse } from "@vcd/bindings/vcloud/rest/openapi/model";
 import { PluginService } from "./plugin.service";
-import { forkJoin } from "rxjs/observable/forkJoin";
 
 @Injectable()
 export class PluginManager {
@@ -81,12 +80,11 @@ export class PluginManager {
             );
         });
 
-        return forkJoin(disableProcesses);
+        return Observable.forkJoin(disableProcesses);
     }
 
     /**
      * Enable list of plugins.
-     * @param plugins list of plugins
      */
     public enablePlugins(): Observable<UiPluginMetadataResponse[]> {
         const enablePorcesses: Observable<UiPluginMetadataResponse>[] = [];
@@ -96,12 +94,11 @@ export class PluginManager {
             );
         });
 
-        return forkJoin(enablePorcesses);
+        return Observable.forkJoin(enablePorcesses);
     }
 
     /**
      * Delete list of plugins.
-     * @param plugins list of plugins
      */
     public deletePlugins(): Observable<Response[]> {
         const deleteProcesses: Observable<Response>[] = [];
@@ -111,7 +108,7 @@ export class PluginManager {
             );
         });
 
-        return forkJoin(deleteProcesses);
+        return Observable.forkJoin(deleteProcesses);
     }
 
     /**
@@ -134,12 +131,11 @@ export class PluginManager {
             );
         });
 
-        return forkJoin(changeScopePorcesses);
+        return Observable.forkJoin(changeScopePorcesses);
     }
 
     /**
      * Publish list of plugins.
-     * @param plugins list of plugins
      * @param trackScopeChange flag which determines requests like trackable
      */
     public publishPluginForAllTenants(trackScopeChange: boolean): Observable<Response> {
@@ -148,7 +144,6 @@ export class PluginManager {
 
     /**
      * Unpublish list of plugins.
-     * @param plugins list of plugins
      * @param trackScopeChange flag which determines requests like trackable
      */
     public unpublishPluginForAllTenants(trackScopeChange: boolean): Observable<Response> {
