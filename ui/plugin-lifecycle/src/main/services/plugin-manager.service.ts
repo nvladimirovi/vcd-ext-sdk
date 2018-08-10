@@ -6,7 +6,6 @@ import { PluginValidator } from "../classes/plugin-validator";
 import { ScopeFeedback } from "../classes/ScopeFeedback";
 import { DisableEnablePluginService } from "./disable-enable-plugin.service";
 import { PluginUploaderService } from "./plugin-uploader.service";
-import { DeletePluginService } from "./delete-plugin.service";
 import { PluginPublisher } from "./plugin-publisher.service";
 import { HttpTransferService } from "@vcd/http-transfer-service";
 import { API_ROOT_URL, AuthTokenHolderService } from "@vcd-ui/common";
@@ -27,7 +26,6 @@ export class PluginManager {
         private authService: AuthTokenHolderService,
         private disableEnablePlugin: DisableEnablePluginService,
         private pluginUploaderService: PluginUploaderService,
-        private deletePluginService: DeletePluginService,
         private pluginPublisher: PluginPublisher,
         private httpTransferService: HttpTransferService,
         private pluginService: PluginService
