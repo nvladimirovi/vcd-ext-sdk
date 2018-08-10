@@ -90,8 +90,15 @@ export class PluginManager {
      * Enable list of plugins.
      * @param plugins list of plugins
      */
-    public enablePlugins(): Promise<Response[]> {
-        return this.disableEnablePlugin.enablePlugins(this.selectedPlugins, this._baseUrl);
+    public enablePlugins(): Observable<UiPluginMetadataResponse[]> {
+        const enablePorcesses: Observable<UiPluginMetadataResponse>[] = [];
+        this.selectedPlugins.forEach((plugin) => {
+            enablePorcesses.push(
+                this.pluginService.disablePlugin(plugin, plugin.id)
+            );
+        });
+
+        return forkJoin(enablePorcesses);
     }
 
     /**
