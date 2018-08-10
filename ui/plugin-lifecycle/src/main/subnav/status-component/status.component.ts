@@ -18,7 +18,8 @@ interface SubjectModalData {
 
 @Component({
     selector: "vcd-plugin-status",
-    templateUrl: "./status.component.html"
+    templateUrl: "./status.component.html",
+    styleUrls: ["./status.component.scss"]
 })
 export class StatusComponent implements OnInit, OnDestroy {
     public _selected: UiPluginMetadataResponse[];
