@@ -4,7 +4,8 @@
 import { Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
 import { ScopeFeedback } from "../../classes/ScopeFeedback";
 import { PluginManager } from "../../services/plugin-manager.service";
-import { UiPluginMetadataResponse } from "@vcd/bindings/vcloud/rest/openapi/model";
+import { UiPluginMetadataResponse, UiPluginMetadata } from "@vcd/bindings/vcloud/rest/openapi/model";
+import { getPropsWithout } from "../../helpers/object-helpers";
 
 @Component({
     selector: "vcd-change-scope",
@@ -44,8 +45,12 @@ export class ChangeScope implements OnInit {
         this.alertClasses = "alert-info";
         // Validate change scope action
         // Collect the plugins which will be update
-        const pluginsToBeUpdated: UiPluginMetadataResponse[] = [];
-        this.pluginManager.selectedPlugins.forEach((selectedPlugin: UiPluginMetadataResponse) => {
+        const pluginsToBeUpdated: UiPluginMetadata[] = [];
+        // Immutable copy of plugins list
+        const selectedPlugins = [...this.pluginManager.selectedPlugins];
+
+        // Loop thought selected plugins array
+        selectedPlugins.forEach((selectedPlugin: UiPluginMetadataResponse) => {
             // Already in state
             if (
                 (selectedPlugin.tenant_scoped === (this.feedback.scope.indexOf("tenant") !== -1)) &&
@@ -54,7 +59,8 @@ export class ChangeScope implements OnInit {
                 return;
             }
 
-            pluginsToBeUpdated.push(selectedPlugin);
+            // Copy all props and their values without listed
+            pluginsToBeUpdated.push(getPropsWithout(["id", "plugin_status", "resourcePath"], selectedPlugin));
         });
 
         if (pluginsToBeUpdated.length < 1) {

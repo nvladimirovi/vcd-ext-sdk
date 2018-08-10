@@ -14,3 +14,11 @@ export const renameProp = (oldKeys: string[], newKeys: string[], obj: any): any 
     return obj;
 };
 
+export const getPropsWithout = (names: string[], object: any): any => Object.keys(object)
+    .filter((key) => names.indexOf(key) === -1)
+    .reduce((newObject, currentKey) => ({
+        ...newObject,
+        [currentKey]: object[currentKey]
+    }), {});
+
+

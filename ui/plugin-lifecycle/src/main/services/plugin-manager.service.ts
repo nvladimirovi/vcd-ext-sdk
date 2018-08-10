@@ -8,7 +8,7 @@ import { PluginUploaderService } from "./plugin-uploader.service";
 import { PluginPublisher } from "./plugin-publisher.service";
 import { HttpTransferService } from "@vcd/http-transfer-service";
 import { API_ROOT_URL, AuthTokenHolderService } from "@vcd-ui/common";
-import { UiPluginMetadataResponse } from "@vcd/bindings/vcloud/rest/openapi/model";
+import { UiPluginMetadataResponse, UiPluginMetadata } from "@vcd/bindings/vcloud/rest/openapi/model";
 import { PluginService } from "./plugin.service";
 
 @Injectable()
@@ -116,13 +116,17 @@ export class PluginManager {
      * @param plugins list of plugins
      * @param scope list of scopes / ['service-scope', 'tenant'] /
      */
-    public changeScope(plugins: UiPluginMetadataResponse[], scope: string[]): Observable<UiPluginMetadataResponse[]> {
+    public changeScope(plugins: UiPluginMetadata[], scope: string[]): Observable<UiPluginMetadataResponse[]> {
         const changeScopePorcesses: Observable<UiPluginMetadataResponse>[] = [];
         plugins.forEach((plugin) => {
+            const oneOfSelected = this.selectedPlugins.find((selected) => {
+                return selected.pluginName === plugin.pluginName;
+            });
+
             changeScopePorcesses.push(
                 this.pluginService.changeScope(
                     plugin,
-                    plugin.id,
+                    oneOfSelected.id,
                     {
                         serviceProvider: scope.indexOf("service-provider") !== -1,
                         tenant: scope.indexOf("tenant") !== -1
