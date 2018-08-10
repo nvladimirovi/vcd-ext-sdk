@@ -72,6 +72,7 @@
         "subnav.upload-plugin.wizard.page-4.cancel.btn": "Cancel",
         "subnav.upload-plugin.wizard.page-4.finish.btn": "Finish",
         "subnav.upload-plugin.wizard.page-4.back.btn": "Back",
-        "subnav.upload-plugin.wizard.page-4.summary.heading": "Your changes will:"
+        "subnav.upload-plugin.wizard.page-4.summary.heading": "Your changes will:",
+        "subnav.upload-zip-field-component.input.file.label": "Select zip to upload:"
     }
 }
