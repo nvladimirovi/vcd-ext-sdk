@@ -12,6 +12,7 @@ import { HttpTransferService } from "@vcd/http-transfer-service";
 import { API_ROOT_URL, AuthTokenHolderService } from "@vcd-ui/common";
 import { UiPluginMetadataResponse } from "@vcd/bindings/vcloud/rest/openapi/model";
 import { PluginService } from "./plugin.service";
+import { forkJoin } from "rxjs/observable/forkJoin";
 
 @Injectable()
 export class PluginManager {
@@ -92,10 +93,15 @@ export class PluginManager {
      * Delete list of plugins.
      * @param plugins list of plugins
      */
-    public deletePlugins(): Promise<Response[]> {
-        
+    public deletePlugins(): Observable<Response[]> {
+        const deleteProcesses: Observable<Response>[] = [];
+        this.selectedPlugins.forEach((plugin) => {
+            deleteProcesses.push(
+                this.pluginService.deletePlugin(plugin)
+            );
+        });
 
-        return this.deletePluginService.deletePlugins(this.selectedPlugins, this._baseUrl);
+        return forkJoin(deleteProcesses);
     }
 
     /**

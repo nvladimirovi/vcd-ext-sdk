@@ -279,19 +279,23 @@ export class StatusComponent implements OnInit, OnDestroy {
                 onDeleteSub.unsubscribe();
                 this.loading();
 
-                this.pluginManager
+                const deleteSubs = this.pluginManager
                     // Delete all selected plugins
                     .deletePlugins()
-                    .then(() => {
+                    .subscribe(() => {
                         // Refresh the list of plugins
                         this.pluginManager.refresh();
                         // Close the loader
                         this.endLoading();
-                    })
-                    .catch((error) => {
+                    }, (error) => {
                         this.endLoading();
                         this.openErrorNotifyer = true;
                         this.errorMessage = error.message;
+                    }, () => {
+                        // Completed!
+                        this.endLoading();
+                        this.openErrorNotifyer = true;
+                        deleteSubs.unsubscribe();
                     });
             });
     }
