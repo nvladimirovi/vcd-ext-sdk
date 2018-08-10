@@ -1,18 +1,16 @@
 import { Injectable, Inject } from "@angular/core";
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
 import { Observable, BehaviorSubject } from "rxjs";
-import { UploadPayload, ChangeScopePlugin, PluginResponse } from "../interfaces/Plugin";
+import { UploadPayload, ChangeScopePlugin } from "../interfaces/Plugin";
 import { PluginValidator } from "../classes/plugin-validator";
 import { ScopeFeedback } from "../classes/ScopeFeedback";
 import { DisableEnablePluginService } from "./disable-enable-plugin.service";
 import { PluginUploaderService } from "./plugin-uploader.service";
 import { DeletePluginService } from "./delete-plugin.service";
 import { PluginPublisher } from "./plugin-publisher.service";
-import { ChangeScopeRequestTo } from "../interfaces/ChangeScopeRequestTo";
 import { HttpTransferService } from "@vcd/http-transfer-service";
 import { API_ROOT_URL, AuthTokenHolderService } from "@vcd-ui/common";
 import { UiPluginMetadataResponse } from "@vcd/bindings/vcloud/rest/openapi/model";
-import { renameProp } from "../helpers/object-helpers";
 
 @Injectable()
 export class PluginManager {
@@ -143,19 +141,7 @@ export class PluginManager {
         const promise = new Promise<void>((resolve, reject) => {
             this.reqPlugins().toPromise()
                 .then((res: Response) => {
-                    this._plugins = [];
-                    const resPlugins: PluginResponse[] = res.json();
-
-                    if (resPlugins.length > 0) {
-                        resPlugins.forEach((resPlugin: PluginResponse) => {
-                            const plugin: UiPluginMetadataResponse = renameProp(
-                                ["provider_scoped", "tenant_scoped"], ["providerScoped", "tenantScoped"],
-                                resPlugin
-                            );
-                            this._plugins.push(plugin);
-                        });
-                    }
-
+                    this._plugins = res.json();
                     this._pluginsSubject.next(this._plugins);
                     resolve();
                 })
