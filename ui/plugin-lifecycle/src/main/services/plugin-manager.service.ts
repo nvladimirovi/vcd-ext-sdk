@@ -115,6 +115,29 @@ export class PluginManager {
     }
 
     /**
+     * Execute the change scope action.
+     * @param plugins list of plugins
+     * @param scope list of scopes / ['service-scope', 'tenant'] /
+     */
+    public changeScope(plugins: UiPluginMetadataResponse[], scope: string[]): Observable<UiPluginMetadataResponse[]> {
+        const changeScopePorcesses: Observable<UiPluginMetadataResponse>[] = [];
+        plugins.forEach((plugin) => {
+            changeScopePorcesses.push(
+                this.pluginService.changeScope(
+                    plugin,
+                    plugin.id,
+                    {
+                        serviceProvider: scope.indexOf("service-provider") !== -1,
+                        tenant: scope.indexOf("tenant") !== -1
+                    }
+                )
+            );
+        });
+
+        return forkJoin(changeScopePorcesses);
+    }
+
+    /**
      * Publish list of plugins.
      * @param plugins list of plugins
      * @param trackScopeChange flag which determines requests like trackable

@@ -3,7 +3,6 @@
  */
 import { Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
 import { ScopeFeedback } from "../../classes/ScopeFeedback";
-import { ChangeScopeService } from "../../services/change-scope.service";
 import { PluginManager } from "../../services/plugin-manager.service";
 import { UiPluginMetadataResponse } from "@vcd/bindings/vcloud/rest/openapi/model";
 
@@ -26,7 +25,6 @@ export class ChangeScope implements OnInit {
     @Output() openChange = new EventEmitter<boolean>();
 
     constructor(
-        private changeScopeService: ChangeScopeService,
         private pluginManager: PluginManager
     ) { }
 
@@ -50,8 +48,8 @@ export class ChangeScope implements OnInit {
         this.pluginManager.selectedPlugins.forEach((selectedPlugin: UiPluginMetadataResponse) => {
             // Already in state
             if (
-                (selectedPlugin.tenantScoped === (this.feedback.scope.indexOf("tenant") !== -1)) &&
-                (selectedPlugin.providerScoped === (this.feedback.scope.indexOf("service-provider") !== -1))
+                (selectedPlugin.tenant_scoped === (this.feedback.scope.indexOf("tenant") !== -1)) &&
+                (selectedPlugin.provider_scoped === (this.feedback.scope.indexOf("service-provider") !== -1))
             ) {
                 return;
             }
@@ -71,8 +69,8 @@ export class ChangeScope implements OnInit {
         // Show spinner
         this.loading = true;
         // Start the change scope action
-        const subs = this.changeScopeService.changeScope(pluginsToBeUpdated, this.feedback.scope, this.pluginManager.baseUrl)
-            .subscribe((res) => {
+        const subs = this.pluginManager.changeScope(pluginsToBeUpdated, this.feedback.scope)
+            .subscribe(() => {
                 this.hasToRefresh = true;
             }, (error: Error) => {
                 this.alertMessage = error.message;
