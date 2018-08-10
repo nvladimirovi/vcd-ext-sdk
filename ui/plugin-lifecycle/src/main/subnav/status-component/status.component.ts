@@ -182,7 +182,8 @@ export class StatusComponent implements OnInit, OnDestroy {
 
                 return this.pluginManager
                     // Start the disable process
-                    .disablePlugins();
+                    .disablePlugins()
+                    .toPromise();
             })
             .then(() => {
                 // Refresh the list of plugins

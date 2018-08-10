@@ -9,7 +9,7 @@ import { PluginUploaderService } from "./plugin-uploader.service";
 import { PluginPublisher } from "./plugin-publisher.service";
 import { HttpTransferService } from "@vcd/http-transfer-service";
 import { API_ROOT_URL, AuthTokenHolderService } from "@vcd-ui/common";
-import { UiPluginMetadataResponse } from "@vcd/bindings/vcloud/rest/openapi/model";
+import { UiPluginMetadataResponse, UiPluginMetadata } from "@vcd/bindings/vcloud/rest/openapi/model";
 import { PluginService } from "./plugin.service";
 import { forkJoin } from "rxjs/observable/forkJoin";
 
@@ -75,8 +75,15 @@ export class PluginManager {
      * Disable list of plugins.
      * @param plugins list of plugins
      */
-    public disablePlugins(): Promise<Response[]> {
-        return this.disableEnablePlugin.disablePlugins(this.selectedPlugins, this._baseUrl);
+    public disablePlugins(): Observable<UiPluginMetadataResponse[]> {
+        const disableProcesses: Observable<UiPluginMetadataResponse>[] = [];
+        this.selectedPlugins.forEach((plugin) => {
+            disableProcesses.push(
+                this.pluginService.disablePlugin(plugin, plugin.id)
+            );
+        });
+
+        return forkJoin(disableProcesses);
     }
 
     /**
