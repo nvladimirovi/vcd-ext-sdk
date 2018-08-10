@@ -4,12 +4,11 @@ import { Observable, BehaviorSubject } from "rxjs";
 import { UploadPayload, ChangeScopePlugin } from "../interfaces/Plugin";
 import { PluginValidator } from "../classes/plugin-validator";
 import { ScopeFeedback } from "../classes/ScopeFeedback";
-import { DisableEnablePluginService } from "./disable-enable-plugin.service";
 import { PluginUploaderService } from "./plugin-uploader.service";
 import { PluginPublisher } from "./plugin-publisher.service";
 import { HttpTransferService } from "@vcd/http-transfer-service";
 import { API_ROOT_URL, AuthTokenHolderService } from "@vcd-ui/common";
-import { UiPluginMetadataResponse, UiPluginMetadata } from "@vcd/bindings/vcloud/rest/openapi/model";
+import { UiPluginMetadataResponse } from "@vcd/bindings/vcloud/rest/openapi/model";
 import { PluginService } from "./plugin.service";
 import { forkJoin } from "rxjs/observable/forkJoin";
 
@@ -24,7 +23,6 @@ export class PluginManager {
         @Inject(API_ROOT_URL) private _baseUrl: string = "",
         private http: Http,
         private authService: AuthTokenHolderService,
-        private disableEnablePlugin: DisableEnablePluginService,
         private pluginUploaderService: PluginUploaderService,
         private pluginPublisher: PluginPublisher,
         private httpTransferService: HttpTransferService,
