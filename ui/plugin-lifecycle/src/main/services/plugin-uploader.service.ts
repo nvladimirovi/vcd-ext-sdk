@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http, Response, Headers, RequestOptions } from "@angular/http";
+import { Http } from "@angular/http";
 import { PluginManifest, PluginFileDetails } from "../interfaces/Plugin";
 import { PluginValidator } from "../classes/plugin-validator";
 import { AuthTokenHolderService } from "@vcd-ui/common";

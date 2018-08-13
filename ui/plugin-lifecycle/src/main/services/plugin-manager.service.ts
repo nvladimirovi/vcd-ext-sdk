@@ -1,5 +1,5 @@
 import { Injectable, Inject } from "@angular/core";
-import { Http, Response, Headers, RequestOptions } from "@angular/http";
+import { Http, Response } from "@angular/http";
 import { Observable, BehaviorSubject } from "rxjs";
 import { UploadPayload, ChangeScopePlugin } from "../interfaces/Plugin";
 import { PluginValidator } from "../classes/plugin-validator";
@@ -146,7 +146,7 @@ export class PluginManager {
      * Publish list of plugins.
      * @param trackScopeChange flag which determines requests like trackable
      */
-    public publishPluginForAllTenants(trackScopeChange: boolean): Observable<Response> {
+    public publishPluginForAllTenants(trackScopeChange: boolean): Observable<HttpResponse<any>> {
         return this.pluginPublisher.publishPluginForAllTenants(this.selectedPlugins, this._baseUrl, trackScopeChange);
     }
 
@@ -154,14 +154,14 @@ export class PluginManager {
      * Unpublish list of plugins.
      * @param trackScopeChange flag which determines requests like trackable
      */
-    public unpublishPluginForAllTenants(trackScopeChange: boolean): Observable<Response> {
+    public unpublishPluginForAllTenants(trackScopeChange: boolean): Observable<HttpResponse<any>> {
         return this.pluginPublisher.unpublishPluginForAllTenants(this.selectedPlugins, this._baseUrl, trackScopeChange);
     }
 
     /**
      * Publish or unpublish list of plugins.
      */
-    public handleMixedScope(plugins: ChangeScopePlugin[], scopeFeedback: ScopeFeedback, trackScopeChange: boolean): Observable<Response> {
+    public handleMixedScope(plugins: ChangeScopePlugin[], scopeFeedback: ScopeFeedback, trackScopeChange: boolean): Observable<HttpResponse<any>> {
         return this.pluginPublisher.handleMixedScope(plugins, scopeFeedback, trackScopeChange, this._baseUrl);
     }
 
@@ -205,14 +205,14 @@ export class PluginManager {
      * @param payload the data of the plugin
      * @param scopeFeedback the data which describes the scope of the plugin which will be uploaded
      */
-    public uploadPlugin(payload: UploadPayload, scopeFeedback: ScopeFeedback): Observable<Observable<Response>> {
+    public uploadPlugin(payload: UploadPayload, scopeFeedback: ScopeFeedback): Observable<Observable<HttpResponse<any>>> {
         // Create data used to register it
         const PLUGIN: any = {
             id: null,
             file: null
         };
 
-        const observable = new Observable<Observable<Response>>((observer) => {
+        const observable = new Observable<Observable<HttpResponse<any>>>((observer) => {
             // Extract useful data from the manifest
             this.pluginUploaderService.proccessManifest(payload.manifest)
                 .then((pluginDesc) => {
