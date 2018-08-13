@@ -11,6 +11,7 @@ import { API_ROOT_URL, AuthTokenHolderService } from "@vcd-ui/common";
 import { UiPluginMetadataResponse, UiPluginMetadata } from "@vcd/bindings/vcloud/rest/openapi/model";
 import { PluginService } from "./plugin.service";
 import { getPropsWithout } from "../helpers/object-helpers";
+import { HttpResponse } from "@angular/common/http";
 
 @Injectable()
 export class PluginManager {
@@ -224,7 +225,7 @@ export class PluginManager {
                     // Register the plugin name and size
                     return this.pluginUploaderService.enablePluginUpload(PLUGIN, this._baseUrl);
                 })
-                .then((enableResponse: Response) => {
+                .then((enableResponse: HttpResponse<any>) => {
                     // Send transfer link in the reslove where the plugin will be uploaded.
                     const linkHeader: string = enableResponse.headers.get("Link");
                     const url: string = linkHeader.split(">;")[0];
