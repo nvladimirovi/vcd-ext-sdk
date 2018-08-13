@@ -97,8 +97,7 @@ export class PluginPublisher {
 
         // Assing org to req body
         changeScopeItems.forEach((item: ChangeScopeItem) => {
-            const obj = { name: item.orgName };
-            body.push(obj);
+            body.push({ name: item.orgName });
         });
 
         // Create req url
