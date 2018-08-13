@@ -215,21 +215,11 @@ export class PluginManager {
             // Extract useful data from the manifest
             this.pluginUploaderService.proccessManifest(payload.manifest)
                 .then((pluginDesc) => {
-                    // Create headers
-                    const headers = new Headers();
-                    headers.append("Accept", "application/json");
-                    headers.append("Content-Type", "application/json");
-                    headers.append("x-vcloud-authorization", this.authService.token);
-                    const opts = new RequestOptions();
-                    opts.headers = headers;
-
                     // Register plugin into the system
-                    return this.http.post(`${this._baseUrl}/cloudapi/extensions/ui`, pluginDesc, opts).toPromise();
+                    return this.pluginService.createSync<UiPluginMetadataResponse>(pluginDesc).toPromise();
                 })
-                .then((registerPluginResponse: Response) => {
-                    // Validate and Handle success
-                    const RES = registerPluginResponse.json();
-                    PLUGIN.id = RES.id;
+                .then((res: UiPluginMetadataResponse) => {;
+                    PLUGIN.id = res.id;
                     PLUGIN.file = payload.file;
                     // Register the plugin name and size
                     return this.pluginUploaderService.enablePluginUpload(PLUGIN, this._baseUrl);

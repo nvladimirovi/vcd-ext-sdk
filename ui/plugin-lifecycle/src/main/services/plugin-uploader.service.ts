@@ -3,6 +3,7 @@ import { Http, Response, Headers, RequestOptions } from "@angular/http";
 import { PluginManifest, PluginFileDetails } from "../interfaces/Plugin";
 import { PluginValidator } from "../classes/plugin-validator";
 import { AuthTokenHolderService } from "@vcd-ui/common";
+import { UiPluginMetadata } from "@vcd/bindings/vcloud/rest/openapi/model";
 
 @Injectable()
 export class PluginUploaderService {
@@ -15,8 +16,8 @@ export class PluginUploaderService {
      * Extract useful data from the plugins manifest.
      * @param manifest parsed version of the plugins manifest
      */
-    public proccessManifest(manifest: PluginManifest): Promise<string> {
-        const promise = new Promise<string>((resolve, reject) => {
+    public proccessManifest(manifest: PluginManifest): Promise<UiPluginMetadata> {
+        const promise = new Promise<UiPluginMetadata>((resolve, reject) => {
             // Validate the manifest
             const isValidManifest = PluginValidator.validateManifestFields(manifest);
 
@@ -28,8 +29,7 @@ export class PluginUploaderService {
                 return;
             }
 
-            // Create data which will be used to register the plugin
-            const pluginDesc: string = JSON.stringify({
+            resolve({
                 "pluginName": manifest.name,
                 "vendor": manifest.vendor,
                 "description": manifest.description,
@@ -40,7 +40,6 @@ export class PluginUploaderService {
                 "provider_scoped": manifest.scope.indexOf("service-provider") !== -1,
                 "enabled": true
             });
-            resolve(pluginDesc);
         });
         return promise;
     }

@@ -11,6 +11,10 @@ export class PluginService {
         return this.client.get("cloudapi/extensions/ui/");
     }
 
+    public createSync<T>(item: T): Observable<T> {
+        return this.client.createSync<T>("cloudapi/extensions/ui", item);
+    }
+
     public deletePlugin(plugin: UiPluginMetadataResponse): Observable<any> {
         return this.client.deleteSync(`cloudapi/extensions/ui/${plugin.id}`);
     }
