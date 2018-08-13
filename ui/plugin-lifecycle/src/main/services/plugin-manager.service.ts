@@ -57,19 +57,6 @@ export class PluginManager {
     }
 
     /**
-     * Creates a request for all plugins.
-     */
-    public reqPlugins(): Observable<Response> {
-        const headers = new Headers();
-        headers.append("Accept", "application/json");
-        headers.append("Content-Type", "application/json");
-        headers.append("x-vcloud-authorization", this.authService.token);
-        const opts = new RequestOptions();
-        opts.headers = headers;
-        return this.http.get(`${this._baseUrl}/cloudapi/extensions/ui`, opts);
-    }
-
-    /**
      * Disable list of plugins.
      */
     public disablePlugins(): Observable<UiPluginMetadataResponse[]> {
@@ -197,9 +184,11 @@ export class PluginManager {
      */
     private getPluginsList(): Promise<void> {
         const promise = new Promise<void>((resolve, reject) => {
-            this.reqPlugins().toPromise()
-                .then((res: Response) => {
-                    this._plugins = res.json();
+            this.pluginService
+                .getPlugins()
+                .toPromise()
+                .then((res: UiPluginMetadataResponse[]) => {
+                    this._plugins = res;
                     this._pluginsSubject.next(this._plugins);
                     resolve();
                 })

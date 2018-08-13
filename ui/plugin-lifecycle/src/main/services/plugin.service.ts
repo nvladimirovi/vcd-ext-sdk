@@ -7,6 +7,10 @@ import { UiPluginMetadata, UiPluginMetadataResponse } from "@vcd/bindings/vcloud
 export class PluginService {
     constructor(private client: VcdApiClient) {}
 
+    public getPlugins(): Observable<UiPluginMetadataResponse[]> {
+        return this.client.get("cloudapi/extensions/ui/");
+    }
+
     public deletePlugin(plugin: UiPluginMetadataResponse): Observable<any> {
         return this.client.deleteSync(`cloudapi/extensions/ui/${plugin.id}`);
     }
