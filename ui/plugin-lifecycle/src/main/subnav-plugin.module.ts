@@ -26,7 +26,6 @@ import { PluginPublisher } from "./services/plugin-publisher.service";
 import { CapitalizeFirstPipe } from "./pipes/capitalizefirst/capitalizefirst.pipe";
 import { ChangeScope } from "./subnav/change-scope-component/change-scope.component";
 import { ChooseScope } from "./subnav/choose-scope-component/choose-scope.component";
-<<<<<<< HEAD
 import { HttpClientModule } from "@angular/common/http";
 import { ErrorNotifyerComponent } from "./subnav/error-notifyer-component/error-notifyer.component";
 import { VcdHttpTransferServiceModule } from "@vcd/http-transfer-service";
@@ -34,16 +33,6 @@ import { VcdApiClient, VcdSdkModule } from "@vcd/sdk";
 import { PluginModule } from "@vcd/sdk/core";
 import { TranslateService } from "@vcd/sdk/i18n";
 import { PluginService } from "./services/plugin.service";
-=======
-// import { HttpTransferService, CHUNK_SIZE, PARALLEL_REQUESTS } from "./services/http-transfer.service";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
-import { ErrorNotifyerComponent } from "./subnav/error-notifyer-component/error-notifyer.component";
-import { VcdHttpTransferServiceModule } from "@vcd/http-transfer-service"
-
-// export function transferServiceFactory(httpClient: HttpClient) {
-//     return new HttpTransferService(httpClient, CHUNK_SIZE, PARALLEL_REQUESTS);
-// }
->>>>>>> 53d06fb... Add http-transfer package
 
 const ROUTES: Routes = [
     {
@@ -62,10 +51,7 @@ const ROUTES: Routes = [
         HttpModule,
         FormsModule,
         HttpClientModule,
-<<<<<<< HEAD
         VcdSdkModule,
-=======
->>>>>>> 53d06fb... Add http-transfer package
         VcdHttpTransferServiceModule,
         RouterModule.forChild(ROUTES)
     ],
@@ -89,19 +75,9 @@ const ROUTES: Routes = [
     bootstrap: [SubnavComponent],
     exports: [],
     providers: [
-<<<<<<< HEAD
         VcdApiClient,
         PluginService,
         TenantService,
-=======
-        // {
-        //     provide: HttpTransferService,
-        //     useFactory: transferServiceFactory,
-        //     deps: [HttpClient]
-        // },
-        AuthService,
-        OrganisationService,
->>>>>>> 53d06fb... Add http-transfer package
         ChangeOrgScopeService,
         PluginPublisher,
         PluginUploaderService,
