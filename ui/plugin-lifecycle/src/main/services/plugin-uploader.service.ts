@@ -66,20 +66,4 @@ export class PluginUploaderService {
 
         return this.http.post(`${url}/cloudapi/extensions/ui/${plugin.id}/plugin`, JSON.stringify(body), opts).toPromise();
     }
-
-    /**
-     * Upload the whole zip file.
-     * @param transferLink the url where the plugin has to be uploaded
-     * @param file the zip file
-     */
-    public sendZip(transferLink: string, file: File): Promise<Response> {
-        // Create headers
-        const headers = new Headers();
-        headers.append("Content-Type", "application/zip");
-        headers.append("x-vcloud-authorization", this.authService.token);
-        const opts = new RequestOptions();
-        opts.headers = headers;
-
-        return this.http.put(transferLink, file, opts).toPromise();
-    }
 }

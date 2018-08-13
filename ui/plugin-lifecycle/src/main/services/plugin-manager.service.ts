@@ -240,17 +240,20 @@ export class PluginManager {
                 .then(() => {
                     // Publish the plugin if this kind of data is provided
                     if (scopeFeedback.forAllOrgs) {
-                        observer.next(this.pluginPublisher.publishPluginForAllTenants([PLUGIN], this.baseUrl, false));
+                        observer.next(this.pluginPublisher.publishPluginForAllTenants(
+                            [PLUGIN],
+                            this.baseUrl,
+                            false
+                        ));
                         return;
                     }
 
                     if (scopeFeedback.data.length > 0) {
-                        const changeScopeRequests = this.handleMixedScope(
+                        observer.next(this.handleMixedScope(
                             [{ id: PLUGIN.id, pluginName: payload.manifest.name }],
                             scopeFeedback,
                             false
-                        );
-                        observer.next(changeScopeRequests);
+                        ));
                         return;
                     }
 
