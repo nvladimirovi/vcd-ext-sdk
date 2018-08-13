@@ -105,8 +105,8 @@ export class ZipManager {
                     throw new Error("Plugin file structure is incorrect!");
                 }
 
-                const manifestFile = data.entries.find((file) => {
-                    return file.filename === "manifest.json";
+                const manifestFile = data.entries.find((entrie) => {
+                    return entrie.filename === "manifest.json";
                 });
 
                 return this.readManifestFile(manifestFile);
