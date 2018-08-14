@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
 import { PluginManifest, PluginFileDetails } from "../interfaces/Plugin";
 import { PluginValidator } from "../classes/plugin-validator";
-import { AuthTokenHolderService } from "@vcd-ui/common";
 import { UiPluginMetadata } from "@vcd/bindings/vcloud/rest/openapi/model";
 import { VcdApiClient } from "@vcd/sdk";
 import { HttpResponse } from "@angular/common/http";
@@ -10,8 +8,6 @@ import { HttpResponse } from "@angular/common/http";
 @Injectable()
 export class PluginUploaderService {
     constructor(
-        private http: Http,
-        private authService: AuthTokenHolderService,
         private client: VcdApiClient
     ) {}
 
