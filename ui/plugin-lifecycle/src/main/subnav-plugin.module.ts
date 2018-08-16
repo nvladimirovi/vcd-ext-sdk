@@ -37,9 +37,9 @@ import { PluginService } from "./services/plugin.service";
 const ROUTES: Routes = [
     {
         path: "", component: SubnavComponent, children: [
-            { path: "", redirectTo: "status", pathMatch: "full" },
-            { path: "status", component: StatusComponent },
-            { path: "about", component: AboutComponent }
+            { path: "", redirectTo: "plugin-management", pathMatch: "full" },
+            { path: "plugin-management", component: StatusComponent },
+            { path: "branding", component: AboutComponent }
         ]
     }
 ];
