@@ -1,5 +1,5 @@
 {
-    "urn": "vmware:vcloud:plugin:seed",
+    "urn": "vmware:vcloud:plugin:lifecycle",
     "name": "plugin-lifecycle",
     "containerVersion": "9.1.0",
     "version": "1.0.0",
@@ -10,5 +10,5 @@
     "license": "MIT",
     "link": "http://someurl.com",
     "module": "SubnavPluginModule",
-    "route": "plugin"
+    "route": "plugin-lifecycle"
 }

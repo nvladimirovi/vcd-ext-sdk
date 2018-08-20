@@ -3,11 +3,11 @@ import { Pipe, PipeTransform } from "@angular/core";
  * Capitalize the first letter of the string
  * Takes a string as a value.
  * Usage:
- *  value | capitalizefirst
+ *  value | capitalizeFirst
  * Example:
  *  // value.name = daniel
- *  {{ value.name | capitalizefirst  }}
- *  fromats to: Daniel
+ *  {{ value.name | capitalizeFirst  }}
+ *  formats to: Daniel
 */
 @Pipe({
   name: "capitalizeFirst"

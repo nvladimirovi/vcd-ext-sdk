@@ -22,12 +22,7 @@
                         <clr-icon shape="caret down"></clr-icon>
                     </button>
                     <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
-                        <label class="dropdown-header">{{ "subnav.status.datagrid.dropdown.heading" | translate }}</label>
-                        <button clrDropdownItem type="button" (click)="publishForAllTenants()">{{ "subnav.status.datagrid.dropdown.publishForAll.btn" | translate }}</button>
-                        <button clrDropdownItem type="button" (click)="unpublishForAllTenants()">{{ "subnav.status.datagrid.dropdown.unPublishForAll.btn" | translate }}</button>
-                        <div class="dropdown-divider"></div>
-                        <button clrDropdownItem type="button" (click)="openChangeOrgScope('publish')">{{ "subnav.status.datagrid.dropdown.publish.btn" | translate }}</button>
-                        <button clrDropdownItem type="button" (click)="openChangeOrgScope('unpublish')">{{ "subnav.status.datagrid.dropdown.unpublish.btn" | translate }}</button>
+                        <button clrDropdownItem type="button" (click)="openChangeOrgScope()">{{ "subnav.status.datagrid.dropdown.publish.btn" | translate }}</button>
                         <div class="dropdown-divider"></div>
                         <button clrDropdownItem type="button" (click)="changeScope()">{{ "subnav.status.datagrid.dropdown.changeScope.btn" | translate }}</button>
                     </clr-dropdown-menu>
@@ -48,10 +43,10 @@
         <clr-dg-column>{{ "subnav.status.datagrid.column.enabled" | translate }}</clr-dg-column>
 
         <clr-dg-row *clrDgItems="let plugin of plugins" [clrDgItem]="plugin">
-            <clr-dg-cell>{{ plugin.pluginName }}</clr-dg-cell>
+            <clr-dg-cell class="pluginName">{{ plugin.pluginName }}</clr-dg-cell>
             <clr-dg-cell>{{ plugin.vendor }}</clr-dg-cell>
             <clr-dg-cell>{{ plugin.version }}</clr-dg-cell>
-            <clr-dg-cell>{{ plugin.description }}</clr-dg-cell>
+            <clr-dg-cell class="description">{{ plugin.description }}</clr-dg-cell>
             <clr-dg-cell>{{ plugin.tenant_scoped }}</clr-dg-cell>
             <clr-dg-cell>{{ plugin.provider_scoped }}</clr-dg-cell>
             <clr-dg-cell>{{ plugin.enabled }}</clr-dg-cell>
@@ -78,12 +73,10 @@
     </clr-modal>
 </div>
 
-<!-- Change org scope -->
-<vcd-change-org-scope [(state)]="changeScopeState" [action]="action"></vcd-change-org-scope>
+<!-- Change tenant scope -->
+<vcd-change-tenant-scope [(state)]="changeScopeState"></vcd-change-tenant-scope>
 <!-- Upload new plugin -->
 <vcd-plugin-upload [(open)]="wantToUpload"></vcd-plugin-upload>
-<!-- Trakc org scope change request -->
-<vcd-change-org-scope-tracker [(open)]="showTracker"></vcd-change-org-scope-tracker>
 <!-- Change scope -->
 <vcd-change-scope [(open)]="openChangeScope"></vcd-change-scope>
 <!--  Show error messages -->
