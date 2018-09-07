@@ -37,12 +37,20 @@ export class ChangeScope implements OnInit {
         return this._open;
     }
 
+    /**
+     * Change the scope of the plugin (ex: tenant / provider)
+     */
     public changeScope(): void {
         this.alertMessage = null;
         this.alertClasses = "alert-info";
         // Validate change scope action
-        const pluginsToBeUpdated: Plugin[] = [];
-        this.pluginManager.selectedPlugins.forEach((selectedPlugin: Plugin) => {
+        // Collect the plugins which will be update
+        const pluginsToBeUpdated: UiPluginMetadata[] = [];
+        // Immutable copy of plugins list
+        const selectedPlugins = [...this.pluginManager.selectedPlugins];
+
+        // Loop thought selected plugins array
+        selectedPlugins.forEach((selectedPlugin: UiPluginMetadataResponse) => {
             // Already in state
             if (
                 (selectedPlugin.tenant_scoped === (this.feedback.scope.indexOf("tenant") !== -1)) &&
@@ -64,9 +72,11 @@ export class ChangeScope implements OnInit {
             this.alertMessage = `Only ${pluginsToBeUpdated.length} plugins will be scope changed, others are already in this state.`;
         }
 
+        // Show spinner
         this.loading = true;
-        const subs = this.changeScopeService.changeScope(pluginsToBeUpdated, this.feedback.scope, this.pluginManager.baseUrl)
-            .subscribe((res) => {
+        // Start the change scope action
+        const subs = this.pluginManager.changeScope(pluginsToBeUpdated, this.feedback.scope)
+            .subscribe(() => {
                 this.hasToRefresh = true;
             }, (error: Error) => {
                 this.alertMessage = error.message;
@@ -77,6 +87,9 @@ export class ChangeScope implements OnInit {
             });
     }
 
+    /**
+     * Close the change scope modal.
+     */
     public onClose(): void {
         this.open = false;
         this.feedback.reset();
@@ -84,6 +97,7 @@ export class ChangeScope implements OnInit {
 
         if (this.hasToRefresh) {
             this.hasToRefresh = false;
+            // Refresh the list of the plugins
             this.pluginManager.refresh();
         }
     }
