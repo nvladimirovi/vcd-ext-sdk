@@ -2,7 +2,6 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { VcdApiClient, VcdSdkModule } from "@vcd/sdk";
 import { ClarityModule } from "clarity-angular";
-import { AboutComponent } from "./about-component/about.component";
 import { RebrandingComponent } from "./rebranding-component/rebranding.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { ColorPickerModule } from "angular4-color-picker";
@@ -21,7 +20,6 @@ import { RebrandingService } from "../services/rebranding.service";
         ColorPickerModule
     ],
     declarations: [
-        AboutComponent,
         RebrandingComponent,
         TagListComponent,
         FormFieldComponent

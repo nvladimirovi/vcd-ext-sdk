@@ -71,6 +71,8 @@
         "lifecycle.upload-plugin.wizard.page-4.summary.heading": "Your changes will:",
         "lifecycle.upload-zip-field-component.input.file.label": "Select zip to upload:",
         "lifecycle.choose-scope-component.forTenants": "Scope for tenant(s).",
-        "lifecycle.choose-scope-component.forProvider": "Scope for provider."
+        "lifecycle.choose-scope-component.forProvider": "Scope for provider.",
+        "rebranding.title": "Customize your theme",
+        "rebranding.btn.apply": "Apply"
     }
 }
