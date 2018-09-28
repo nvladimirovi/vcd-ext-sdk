@@ -54,7 +54,7 @@ export class RebrandingComponent implements OnInit, OnDestroy {
             customLinks = <string[]>this.rebrandingForm.get("customLinks").value.split(",");
             customLinks.splice(customLinks.length - 1, 1);
         }
-        
+
         const sub = Observable.merge(
             this.rebrandingService.putTemeData({
                 portalName: this.rebrandingForm.get("portalName").value,

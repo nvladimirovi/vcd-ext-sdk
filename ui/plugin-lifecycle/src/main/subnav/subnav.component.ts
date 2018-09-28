@@ -9,6 +9,7 @@ import { EXTENSION_ASSET_URL } from "@vcd/sdk/common";
 export class SubnavComponent {
     navItems: any[] = [
         { routerLink: "./plugin-management", iconShape: "cog", labelKey: "subnav.menu.status" },
+        { routerLink: "./vcd-api-extensions", iconShape: "cog", labelKey: "subnav.menu.api_extensions" },
         { routerLink: "./vcd-rebranding", iconShape: "wand", labelKey: "subnav.menu.rebranding" }
     ];
 

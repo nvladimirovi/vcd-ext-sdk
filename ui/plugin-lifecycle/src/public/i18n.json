@@ -3,6 +3,7 @@
         "nav.label": "Plugin Lifecycle Management",
         "nav.description": "Plugin Lifecycle Management",
         "subnav.menu.status": "Plugins",
+        "subnav.menu.api_extensions": "API Extensions",
         "subnav.menu.rebranding": "Rebranding",
         "lifecycle.status.heading": "Plugins",
         "lifecycle.status.datagrid.upload.btn": "Upload",
@@ -73,6 +74,19 @@
         "lifecycle.choose-scope-component.forTenants": "Scope for tenant(s).",
         "lifecycle.choose-scope-component.forProvider": "Scope for provider.",
         "rebranding.title": "Customize your theme",
-        "rebranding.btn.apply": "Apply"
+        "rebranding.btn.apply": "Apply",
+        "api_extensions.status.heading": "API Extensions",
+        "api_extensions.status.datagrid.enable.btn": "Enable",
+        "api_extensions.status.datagrid.disable.btn": "Disable",
+        "api_extensions.status.datagrid.delete.btn": "Delete",
+        "api_extensions.status.datagrid.notFoundMessage": "No API Extensions Found",
+        "api_extensions.status.datagrid.column.enabled": "Enabled",
+        "api_extensions.status.datagrid.column.exchange": "Exchange",
+        "api_extensions.status.datagrid.column.isAuthorizationEnabled": "isAuthorizationEnabled",
+        "api_extensions.status.datagrid.column.name": "Name",
+        "api_extensions.status.datagrid.column.namespace": "Namespace",
+        "api_extensions.status.datagrid.column.priority": "Priority",
+        "api_extensions.status.datagrid.column.routingKey": "RoutingKey",
+        "api_extensions.status.datagrid.column.href": "Href"
     }
 }
