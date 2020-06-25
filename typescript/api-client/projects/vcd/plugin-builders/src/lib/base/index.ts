@@ -1,25 +1,41 @@
+import * as fs from 'fs';
+import * as ZipPlugin from 'zip-webpack-plugin';
 import {
   BrowserBuilder,
   NormalizedBrowserBuilderSchema
 } from '@angular-devkit/build-angular';
 import { Path, virtualFs } from '@angular-devkit/core';
-import * as fs from 'fs';
 import { Observable } from 'rxjs';
-
 import { BuilderConfiguration, BuildEvent } from '@angular-devkit/architect';
 import { tap } from 'rxjs/operators';
-import * as ZipPlugin from 'zip-webpack-plugin';
+import { extractExternalRegExps, splitVendorsIntoChunks } from "./utilites";
 
-interface PluginBuilderSchema extends NormalizedBrowserBuilderSchema {
+export interface PluginBuilderSchema extends NormalizedBrowserBuilderSchema {
   /**
    * A string of the form `path/to/file#exportName` that acts as a path to include to bundle
    */
   modulePath: string;
+  externalLibs: string[];
 }
+
+export const defaultExternals = [
+  // /^rxjs(\/.+)?$/,
+  /^@angular\/.+$/,
+  // /^@clr\/.+$/,
+  /^@ngrx\/.+$/,
+  /^@vcd\/common$/,
+  /^@vcd-ui\/common$/,
+  {
+    // 'clarity-angular': 'clarity-angular',
+    reselect: 'reselect'
+  }
+];
+
 export default class PluginBuilder extends BrowserBuilder {
   private options: PluginBuilderSchema;
 
   private entryPointPath: string;
+  private entryPointOriginalContent: string;
 
   constructor(context) {
     super(context);
@@ -50,22 +66,30 @@ export default class PluginBuilder extends BrowserBuilder {
 
     // List the external libraries which will be provided by vcd
     config.externals = [
-      /^rxjs(\/.+)?$/,
-      /^@angular\/.+$/,
-      /^@clr\/.+$/,
-      /^@ngrx\/.+$/,
-      /^@vcd\/common$/,
-      /^@vcd-ui\/common$/,
-      {
-        'clarity-angular': 'clarity-angular',
-        reselect: 'reselect'
-      }
+      ...defaultExternals,
+      ...extractExternalRegExps(options.externalLibs)
     ];
+
+    let [modulePath, moduleName] = this.options.modulePath.split('#');
+
+    config.output.jsonpFunction = `vcdJsonp#${moduleName}`
+    config.optimization.splitChunks = {
+      chunks: "all",
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            return splitVendorsIntoChunks(module, config.context);
+          },
+        },
+      },
+    };
 
     // preserve path to entry point
     // so that we can clear use it within `run` method to clear that file
     this.entryPointPath = config.entry.main[0];
-    let [modulePath, moduleName] = this.options.modulePath.split('#');
+    this.entryPointOriginalContent = fs.readFileSync(this.entryPointPath, "utf-8");
+    
     modulePath = modulePath.substr(0, modulePath.indexOf(".ts"));
     const entryPointContents = `export * from '${modulePath}';`;
     this.patchEntryPoint(entryPointContents);
@@ -107,7 +131,7 @@ export default class PluginBuilder extends BrowserBuilder {
     return super.run(builderConfig).pipe(
       tap(() => {
         // clear entry point so our main.ts is always empty
-        this.patchEntryPoint('');
+        this.patchEntryPoint(this.entryPointOriginalContent);
       })
     );
   }

@@ -5,6 +5,11 @@
             "type": "string",
             "description": "Path to module like loadChildren",
             "default": ""
+        },
+        "externalLibs": {
+            "type": "array",
+            "description": "The list of the libraries which will be provided by the vCloud Director Core UI. The list of strings will be converted to Regular Expression, defined by the JS. (The input supports strings only)",
+            "default": []
         }
     }
 }
